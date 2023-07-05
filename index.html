@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>怪物猎人 MHRSB 怪异练成+护石 16.0.0 switch金手指</title>
+    <title> </title>
+    <meta name="description" content="怪物猎人 MHRSB 怪异练成+护石 16.0.0 switch金手指">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <style>
+        .msghint {
+            width: 300px;
+            height: 50px;
+            right: -300px;
+            /* background-color: red; */
+            position: fixed;
+            animation: m1 3s;
+            animation-timing-function: linear;
+        }
+
+        @keyframes m1 {
+            0% {
+                right: 0px;
+                bottom: -300px;
+            }
+
+            90% {
+                right: 0px;
+                bottom: 500px;
+            }
+
+            100% {
+                right: -100px;
+                bottom: 500px;
+            }
+        }
+
+        .decoration_select {
+            font-size: 0.5rem;
+        }
+
+        .skill_info_btn:disabled {
+            /* background-color: gray; */
+            opacity: 0.3;
+        }
+    </style>
+
+
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/cache.js"></script>
+    <script src="data/armor_list_chT.js"></script>
+    <script src="data/armor_pool_cost.js"></script>
+    <script src="data/k_skill_add.js"></script>
+    <script src="data/skill_data.js"></script>
+    <script src="data/decoration_data.js"></script>
+
+</head>
+
+<body>
+    <div id="main" style="display:none;margin-left: 10px;margin-right: 10px;">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col">
+                    <label class="form-label">版本16.0.0</label>
+                    <label class="form-label">version_code:123693D0</label>
+                    <label class="form-label">TID:0100559011740000</label>
+                    <label class="form-label">BID:44C9289FBB51455F</label>                   
+                </div>
+                <div class="col col-sm-auto">
+                    <label class="form-label">当前：<label id="curTitle" class="form-label"></label></label>
+                    <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#cacheModal"
+                        data-bs-whatever="@mdo">保存</button>
+                    <div class="modal fade" id="cacheModal" tabindex="-1" aria-labelledby="cacheModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="cacheModalLabel">保存修改</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form>
+                                        <div class="mb-3">
+                                            <input type="text" class="form-control" id="cache-name" placeholder="填写备注">
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button id="saveCacheClose" type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">取消</button>
+                                    <button id="saveCache" type="button" class="btn btn-primary">确定</button>
+                                    <span id="saveCache-spinner" class="spinner-border spinner-border-sm" role="status"
+                                        aria-hidden="true"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button id="setTmpCache" class="btn btn-success ">设置临时缓存</button>
+                    <div class="btn dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">加载历史</button>
+                        <ul class="dropdown-menu">
+
+                        </ul>
+                    </div>
+                    <button id="switchMode" class="btn btn-outline-secondary">切换至普通模式</button>
+                    <button id="switch" class="btn btn-primary ">切换至代码</button>
+                </div>
+            </div>
+
+            <div id="menu1" class="">
+                <label class="form-label">练成顺序：防御- 防御+ 耐性- 耐性+ 孔位+ 技能- 技能+</label>
+                <div class="row" id="armor_body">
+                    <div class="col">
+                        <div class="armor_container">
+                            <div class="container mt-2">
+                                <form>
+                                    <div class="m-1 row">
+                                        <label class="form-label col-sm-auto">选择装备 位置<span
+                                                class="armor_pos">1</span></label>
+                                        <select class="form-select col armor_select">
+                                            <option>-----</option>
+                                        </select>
+
+                                    </div>
+                                    <div class="m-1 row">
+                                        <div class="col list-group-item-success rounded">
+                                            <!-- <span>防: </span> -->
+                                            <span title="防" class="def_p">0</span>
+                                        </div>
+                                        <div class="col list-group-item-danger rounded ">
+                                            <!-- <span>火:</span> -->
+                                            <span title="火" class="def_f">0</span>
+                                        </div>
+                                        <div class="col list-group-item-primary rounded ">
+                                            <!-- <span>水:</span> -->
+                                            <span title="水" class="def_w">0</span>
+                                        </div>
+                                        <div class="col list-group-item-warning rounded ">
+                                            <!-- <span>雷:</span> -->
+                                            <span title="雷" class="def_t">0</span>
+                                        </div>
+                                        <div class="col list-group-item-info rounded ">
+                                            <!-- <span>冰:</span> -->
+                                            <span title="冰" class="def_i">0</span>
+                                        </div>
+                                        <div class="col list-group-item-dark rounded ">
+                                            <!-- <span>龙:</span> -->
+                                            <span title="龙" class="def_d">0</span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th class="small">词条</th>
+                                                    <th class="small">技能</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="k_skill_tbody">
+                                                <tr class="tr k_skill_row">
+                                                    <td>
+                                                        <select class="small form-select k_skill_select">
+                                                            <option value="00_0_0">-----</option>
+                                                            <option value="00_0_0">-----</option>
+                                                            <option value="00_0_0">-----</option>
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <select class="small form-select k_skill_change">
+                                                            <option value="0_0_00">-----</option>
+                                                        </select>
+                                                        <!-- <select hidden class="small form-select" id="armor_new_skill_0">
+                                                        <option value="00_0">-----</option>
+                                                    </select> -->
+                                                    </td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="m-1 row">
+                                            <div class="col  bg-warning">怪异点数: <span class="armor_cost">0</span></div>
+                                            <div class="col bg-info">孔位：<span class="armor_slot">---</span></div>
+                                        </div>
+                                        <div class="m-1 row decoration_select_container">
+                                            <select class="form-select col decoration_select">
+                                                <option>-----</option>
+                                            </select>
+                                        </div>
+                                        <label class="form-label">装备技能：</label>
+                                        <ul class="list-group p-1 armor_skill"></ul>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row alert alert-success">
+                    <div class="col"><label class="form-label">位置6 护石技能孔位选择</label></div>
+                    <div class="col">
+                        <div class="row">
+                            <label class="form-label col-sm-auto">护石技能1</label>
+                            <select class="form-select col charm_skill_select" id="charm_skill_select1">
+                                <option>-----</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="row">
+                            <label class="form-label col-sm-auto">护石技能2</label>
+                            <select class="form-select col charm_skill_select" id="charm_skill_select2">
+                                <option>-----</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="row">
+                            <label class="form-label col-sm-auto">孔位</label>
+                            <select class="form-select col charm_slot_select" id="charm_slot_select">
+                                <option>-----</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="row">
+                            <label class="form-label col-sm-auto"></label>
+                            <select class="form-select col decoration_select decoration_select_6_0">
+                                <option>-----</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="row">
+                            <label class="form-label col-sm-auto"></label>
+                            <select class="form-select col decoration_select decoration_select_6_1">
+                                <option>-----</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="row">
+                            <label class="form-label col-sm-auto"></label>
+                            <select class="form-select col decoration_select decoration_select_6_2">
+                                <option>-----</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="small">头</th>
+                                    <th class="small">身</th>
+                                    <th class="small">手</th>
+                                    <th class="small">腰</th>
+                                    <th class="small">腿</th>
+                                    <th class="small">护石</th>
+                                    <th class="small" style="text-align: right;">技能</th>
+                                    <th class="small">合计</th>
+                                </tr>
+                            </thead>
+                            <tbody id="skill_table">
+                                <tr>
+                                    <td>-</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="small">防具</th>
+                                    <th class="small">箱子</th>
+                                    <th class="small">防</th>
+                                    <th class="small">火</th>
+                                    <th class="small">水</th>
+                                    <th class="small">雷</th>
+                                    <th class="small">冰</th>
+                                    <th class="small">龙</th>
+                                    <th class="small">孔位</th>
+                                    <th class="small">装饰珠</th>
+                                </tr>
+                            </thead>
+                            <tbody id="def_table">
+                                <tr>
+                                    <td>#</td>
+                                    <td>1</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col">
+
+                        <div class="alert alert-success">
+                            <label class="form-label">会心率</label><label id="critical" class="form-label"></label>
+                        </div>
+                        <div id="skillInfo" class="container">
+                            <div class="col list-group-item-success rounded">
+                                <span class="">skill</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="menu2">
+                <button class="btn btn-outline-secondary" type="button" id="copy_to_clipboard">复制到粘贴板</button>
+                <button class="btn btn-outline-primary" type="button" id="download">下载txt</button>
+                <label class="text-success" id="copy_result"></label>
+                <blockquote class="blockquote small" id="template_result"></blockquote>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="js/main.js"></script>
+</body>
+
+</html>
