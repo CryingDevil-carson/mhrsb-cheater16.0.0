@@ -154,7 +154,7 @@ var skill_data = {
     "8A": { "tag": [Attr.spec], "hex": "8A", "sname": "风绕", "cost": 9, "max": 3, "lvType": "A", "p1Max": 3, "p2Max": 2, },
     "8B": { "tag": [Attr.spec], "hex": "8B", "sname": "粉尘绕", "cost": 9, "max": 3, "lvType": "A", "p1Max": 3, "p2Max": 2, },
     "8C": { "tag": [Attr.spec], "hex": "8C", "sname": "寒气炼成", "cost": 12, "max": 3, "lvType": "A", "p1Max": 3, "p2Max": 2, },
-    "8D": { "tag": [Attr.spec], "hex": "8D", "sname": "龙气转换", "cost": 12, "max": 3, "lvType": "A", "p1Max": 3, "p2Max": 2, },
+    "8D": { "tag": [Attr.spec], "hex": "8D", "sname": "龙气转换", "cost": 12, "max": 3, "lvType": "A", "p1Max": 3, "p2Max": 1, },
     "8E": { "tag": [Attr.spec], "hex": "8E", "sname": "天衣无缝", "cost": -99, "max": 3, "lvType": "", "p1Max": 0, "p2Max": 0, },
     "8F": { "tag": [Attr.spec], "hex": "8F", "sname": "狂龙症【翔】", "cost": 9, "max": 3, "lvType": "A", "p1Max": 3, "p2Max": 2, },
     
