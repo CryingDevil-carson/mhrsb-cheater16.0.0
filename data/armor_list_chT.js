@@ -23944,886 +23944,9 @@ var armor_list = {
         "rare9": false
     },
 
-    //
-    "449_1": {
-        "id": 449,
-        "name": "秋意披肩",
-        "rank": 9,
-        "gender": "男女共通",
-        "parts": "头",
-        "parts_id": 1,
-        "rare": 8,
-        "slotLv1": 0,
-        "slotLv2": 0,
-        "slotLv3": 0,
-        "slotLv4": 0,
-        "bougyo": 0,
-        "bougyo_max": 20,
-        "skill": [],
-        "def_f": 0,
-        "def_w": 0,
-        "def_t": 0,
-        "def_i": 0,
-        "def_d": 0,
-        "rare9": false
-    },
-    "449_2": {
-        "id": 449,
-        "name": "秋意外套",
-        "rank": 9,
-        "gender": "男女共通",
-        "parts": "身",
-        "parts_id": 2,
-        "rare": 8,
-        "slotLv1": 0,
-        "slotLv2": 0,
-        "slotLv3": 0,
-        "slotLv4": 0,
-        "bougyo": 0,
-        "bougyo_max": 20,
-        "skill": [],
-        "def_f": 0,
-        "def_w": 0,
-        "def_t": 0,
-        "def_i": 0,
-        "def_d": 0,
-        "rare9": false
-    },
-    "449_3": {
-        "id": 449,
-        "name": "秋意護腕",
-        "rank": 9,
-        "gender": "男女共通",
-        "parts": "手",
-        "parts_id": 3,
-        "rare": 8,
-        "slotLv1": 0,
-        "slotLv2": 0,
-        "slotLv3": 0,
-        "slotLv4": 0,
-        "bougyo": 0,
-        "bougyo_max": 20,
-        "skill": [],
-        "def_f": 0,
-        "def_w": 0,
-        "def_t": 0,
-        "def_i": 0,
-        "def_d": 0,
-        "rare9": false
-    },
-    "449_4": {
-        "id": 449,
-        "name": "秋意腰部",
-        "rank": 9,
-        "gender": "男女共通",
-        "parts": "腰",
-        "parts_id": 4,
-        "rare": 8,
-        "slotLv1": 0,
-        "slotLv2": 0,
-        "slotLv3": 0,
-        "slotLv4": 0,
-        "bougyo": 0,
-        "bougyo_max": 20,
-        "skill": [],
-        "def_f": 0,
-        "def_w": 0,
-        "def_t": 0,
-        "def_i": 0,
-        "def_d": 0,
-        "rare9": false
-    },
-    "449_5": {
-        "id": 449,
-        "name": "秋意長褲",
-        "rank": 9,
-        "gender": "男女共通",
-        "parts": "腿",
-        "parts_id": 5,
-        "rare": 8,
-        "slotLv1": 0,
-        "slotLv2": 0,
-        "slotLv3": 0,
-        "slotLv4": 0,
-        "bougyo": 0,
-        "bougyo_max": 20,
-        "skill": [],
-        "def_f": 0,
-        "def_w": 0,
-        "def_t": 0,
-        "def_i": 0,
-        "def_d": 0,
-        "rare9": false
-    },
-    "464_1": {
-        "id": 464,
-        "name": "亞爾羅面罩",
-        "rank": 9,
-        "gender": "男女共通",
-        "parts": "头",
-        "parts_id": 1,
-        "rare": 8,
-        "slotLv1": 0,
-        "slotLv2": 0,
-        "slotLv3": 0,
-        "slotLv4": 0,
-        "bougyo": 0,
-        "bougyo_max": 20,
-        "skill": [],
-        "def_f": 0,
-        "def_w": 0,
-        "def_t": 0,
-        "def_i": 0,
-        "def_d": 0,
-        "rare9": false
-    },
-    "464_2": {
-        "id": 464,
-        "name": "亞爾羅身體",
-        "rank": 9,
-        "gender": "男女共通",
-        "parts": "身",
-        "parts_id": 2,
-        "rare": 8,
-        "slotLv1": 0,
-        "slotLv2": 0,
-        "slotLv3": 0,
-        "slotLv4": 0,
-        "bougyo": 0,
-        "bougyo_max": 20,
-        "skill": [],
-        "def_f": 0,
-        "def_w": 0,
-        "def_t": 0,
-        "def_i": 0,
-        "def_d": 0,
-        "rare9": false
-    },
-    "464_3": {
-        "id": 464,
-        "name": "亞爾羅腕部",
-        "rank": 9,
-        "gender": "男女共通",
-        "parts": "手",
-        "parts_id": 3,
-        "rare": 8,
-        "slotLv1": 0,
-        "slotLv2": 0,
-        "slotLv3": 0,
-        "slotLv4": 0,
-        "bougyo": 0,
-        "bougyo_max": 20,
-        "skill": [],
-        "def_f": 0,
-        "def_w": 0,
-        "def_t": 0,
-        "def_i": 0,
-        "def_d": 0,
-        "rare9": false
-    },
-    "464_4": {
-        "id": 464,
-        "name": "亞爾羅腰部",
-        "rank": 9,
-        "gender": "男女共通",
-        "parts": "腰",
-        "parts_id": 4,
-        "rare": 8,
-        "slotLv1": 0,
-        "slotLv2": 0,
-        "slotLv3": 0,
-        "slotLv4": 0,
-        "bougyo": 0,
-        "bougyo_max": 20,
-        "skill": [],
-        "def_f": 0,
-        "def_w": 0,
-        "def_t": 0,
-        "def_i": 0,
-        "def_d": 0,
-        "rare9": false
-    },
-    "464_5": {
-        "id": 464,
-        "name": "亞爾羅足部",
-        "rank": 9,
-        "gender": "男女共通",
-        "parts": "腿",
-        "parts_id": 5,
-        "rare": 8,
-        "slotLv1": 0,
-        "slotLv2": 0,
-        "slotLv3": 0,
-        "slotLv4": 0,
-        "bougyo": 0,
-        "bougyo_max": 20,
-        "skill": [],
-        "def_f": 0,
-        "def_w": 0,
-        "def_t": 0,
-        "def_i": 0,
-        "def_d": 0,
-        "rare9": false
-    },
-    "482_1": {
-        "id": 482,
-        "name": "蒸汽貴族頭盔",
-        "rank": 9,
-        "gender": "男女共通",
-        "parts": "头",
-        "parts_id": 1,
-        "rare": 8,
-        "slotLv1": 0,
-        "slotLv2": 0,
-        "slotLv3": 0,
-        "slotLv4": 0,
-        "bougyo": 0,
-        "bougyo_max": 20,
-        "skill": [],
-        "def_f": 0,
-        "def_w": 0,
-        "def_t": 0,
-        "def_i": 0,
-        "def_d": 0,
-        "rare9": false
-    },
-    "482_2": {
-        "id": 482,
-        "name": "蒸汽貴族鎧甲",
-        "rank": 9,
-        "gender": "男女共通",
-        "parts": "身",
-        "parts_id": 2,
-        "rare": 8,
-        "slotLv1": 0,
-        "slotLv2": 0,
-        "slotLv3": 0,
-        "slotLv4": 0,
-        "bougyo": 0,
-        "bougyo_max": 20,
-        "skill": [],
-        "def_f": 0,
-        "def_w": 0,
-        "def_t": 0,
-        "def_i": 0,
-        "def_d": 0,
-        "rare9": false
-    },
-    "482_3": {
-        "id": 482,
-        "name": "蒸汽貴族腕甲",
-        "rank": 9,
-        "gender": "男女共通",
-        "parts": "手",
-        "parts_id": 3,
-        "rare": 8,
-        "slotLv1": 0,
-        "slotLv2": 0,
-        "slotLv3": 0,
-        "slotLv4": 0,
-        "bougyo": 0,
-        "bougyo_max": 20,
-        "skill": [],
-        "def_f": 0,
-        "def_w": 0,
-        "def_t": 0,
-        "def_i": 0,
-        "def_d": 0,
-        "rare9": false
-    },
-    "482_4": {
-        "id": 482,
-        "name": "蒸汽貴族腰甲",
-        "rank": 9,
-        "gender": "男女共通",
-        "parts": "腰",
-        "parts_id": 4,
-        "rare": 8,
-        "slotLv1": 0,
-        "slotLv2": 0,
-        "slotLv3": 0,
-        "slotLv4": 0,
-        "bougyo": 0,
-        "bougyo_max": 20,
-        "skill": [],
-        "def_f": 0,
-        "def_w": 0,
-        "def_t": 0,
-        "def_i": 0,
-        "def_d": 0,
-        "rare9": false
-    },
-    "482_5": {
-        "id": 482,
-        "name": "蒸汽貴族護腿",
-        "rank": 9,
-        "gender": "男女共通",
-        "parts": "腿",
-        "parts_id": 5,
-        "rare": 8,
-        "slotLv1": 0,
-        "slotLv2": 0,
-        "slotLv3": 0,
-        "slotLv4": 0,
-        "bougyo": 0,
-        "bougyo_max": 20,
-        "skill": [],
-        "def_f": 0,
-        "def_w": 0,
-        "def_t": 0,
-        "def_i": 0,
-        "def_d": 0,
-        "rare9": false
-    },
-    "484_1": {
-        "id": 484,
-        "name": "探究之單片眼鏡",
-        "rank": 9,
-        "gender": "男女共通",
-        "parts": "头",
-        "parts_id": 1,
-        "rare": 8,
-        "slotLv1": 0,
-        "slotLv2": 0,
-        "slotLv3": 0,
-        "slotLv4": 0,
-        "bougyo": 0,
-        "bougyo_max": 20,
-        "skill": [],
-        "def_f": 0,
-        "def_w": 0,
-        "def_t": 0,
-        "def_i": 0,
-        "def_d": 0,
-        "rare9": false
-    },
-    "483_1": {
-        "id": 483,
-        "name": "妖精皇冠",
-        "rank": 10,
-        "gender": "男女共通",
-        "parts": "头",
-        "parts_id": 1,
-        "rare": 9,
-        "slotLv1": 0,
-        "slotLv2": 0,
-        "slotLv3": 0,
-        "slotLv4": 0,
-        "bougyo": 0,
-        "bougyo_max": 20,
-        "skill": [],
-        "def_f": 0,
-        "def_w": 0,
-        "def_t": 0,
-        "def_i": 0,
-        "def_d": 0,
-        "rare9": false
-    },
-    "s111_0": {
-        "id": 999,
-        "name": "スロット111防具",
-        "rank": 1,
-        "gender": "男女共通",
-        "parts": "头",
-        "parts_id": 1,
-        "rare": 1,
-        "slotLv1": 3,
-        "slotLv2": 0,
-        "slotLv3": 0,
-        "slotLv4": 0,
-        "bougyo": 0,
-        "bougyo_max": 0,
-        "skill": [
-            {
-                "sname": "",
-                "lv": 0
-            },
-            {
-                "sname": "",
-                "lv": 0
-            }
-        ],
-        "def_f": 0,
-        "def_w": 0,
-        "def_t": 0,
-        "def_i": 0,
-        "def_d": 0,
-        "rare9": false
-    },
-    "s311_0": {
-        "id": 999,
-        "name": "スロット311防具",
-        "rank": 1,
-        "gender": "男女共通",
-        "parts": "头",
-        "parts_id": 1,
-        "rare": 1,
-        "slotLv1": 2,
-        "slotLv2": 0,
-        "slotLv3": 1,
-        "slotLv4": 0,
-        "bougyo": 0,
-        "bougyo_max": 0,
-        "skill": [
-            {
-                "sname": "",
-                "lv": 0
-            },
-            {
-                "sname": "",
-                "lv": 0
-            }
-        ],
-        "def_f": 0,
-        "def_w": 0,
-        "def_t": 0,
-        "def_i": 0,
-        "def_d": 0,
-        "rare9": false
-    },
-    "s411_0": {
-        "id": 999,
-        "name": "スロット411防具",
-        "rank": 1,
-        "gender": "男女共通",
-        "parts": "头",
-        "parts_id": 1,
-        "rare": 1,
-        "slotLv1": 2,
-        "slotLv2": 0,
-        "slotLv3": 0,
-        "slotLv4": 1,
-        "bougyo": 0,
-        "bougyo_max": 0,
-        "skill": [
-            {
-                "sname": "",
-                "lv": 0
-            },
-            {
-                "sname": "",
-                "lv": 0
-            }
-        ],
-        "def_f": 0,
-        "def_w": 0,
-        "def_t": 0,
-        "def_i": 0,
-        "def_d": 0,
-        "rare9": false
-    },
-    "s421_0": {
-        "id": 999,
-        "name": "スロット421防具",
-        "rank": 1,
-        "gender": "男女共通",
-        "parts": "头",
-        "parts_id": 1,
-        "rare": 1,
-        "slotLv1": 1,
-        "slotLv2": 1,
-        "slotLv3": 0,
-        "slotLv4": 1,
-        "bougyo": 0,
-        "bougyo_max": 0,
-        "skill": [
-            {
-                "sname": "",
-                "lv": 0
-            },
-            {
-                "sname": "",
-                "lv": 0
-            }
-        ],
-        "def_f": 0,
-        "def_w": 0,
-        "def_t": 0,
-        "def_i": 0,
-        "def_d": 0,
-        "rare9": false
-    },
-    "s220_0": {
-        "id": 999,
-        "name": "スロット220防具",
-        "rank": 1,
-        "gender": "男女共通",
-        "parts": "头",
-        "parts_id": 1,
-        "rare": 1,
-        "slotLv1": 0,
-        "slotLv2": 2,
-        "slotLv3": 0,
-        "slotLv4": 0,
-        "bougyo": 0,
-        "bougyo_max": 0,
-        "skill": [
-            {
-                "sname": "",
-                "lv": 0
-            },
-            {
-                "sname": "",
-                "lv": 0
-            }
-        ],
-        "def_f": 0,
-        "def_w": 0,
-        "def_t": 0,
-        "def_i": 0,
-        "def_d": 0,
-        "rare9": false
-    },
-    "s320_0": {
-        "id": 999,
-        "name": "スロット320防具",
-        "rank": 1,
-        "gender": "男女共通",
-        "parts": "头",
-        "parts_id": 1,
-        "rare": 1,
-        "slotLv1": 0,
-        "slotLv2": 1,
-        "slotLv3": 1,
-        "slotLv4": 0,
-        "bougyo": 0,
-        "bougyo_max": 0,
-        "skill": [
-            {
-                "sname": "",
-                "lv": 0
-            },
-            {
-                "sname": "",
-                "lv": 0
-            }
-        ],
-        "def_f": 0,
-        "def_w": 0,
-        "def_t": 0,
-        "def_i": 0,
-        "def_d": 0,
-        "rare9": false
-    },
-    "s420_0": {
-        "id": 999,
-        "name": "スロット420防具",
-        "rank": 1,
-        "gender": "男女共通",
-        "parts": "头",
-        "parts_id": 1,
-        "rare": 1,
-        "slotLv1": 0,
-        "slotLv2": 1,
-        "slotLv3": 0,
-        "slotLv4": 1,
-        "bougyo": 0,
-        "bougyo_max": 0,
-        "skill": [
-            {
-                "sname": "",
-                "lv": 0
-            },
-            {
-                "sname": "",
-                "lv": 0
-            }
-        ],
-        "def_f": 0,
-        "def_w": 0,
-        "def_t": 0,
-        "def_i": 0,
-        "def_d": 0,
-        "rare9": false
-    },
-    "s300_0": {
-        "id": 999,
-        "name": "スロット300防具",
-        "rank": 1,
-        "gender": "男女共通",
-        "parts": "头",
-        "parts_id": 1,
-        "rare": 1,
-        "slotLv1": 0,
-        "slotLv2": 0,
-        "slotLv3": 1,
-        "slotLv4": 0,
-        "bougyo": 0,
-        "bougyo_max": 0,
-        "skill": [
-            {
-                "sname": "",
-                "lv": 0
-            },
-            {
-                "sname": "",
-                "lv": 0
-            }
-        ],
-        "def_f": 0,
-        "def_w": 0,
-        "def_t": 0,
-        "def_i": 0,
-        "def_d": 0,
-        "rare9": false
-    },
-    "s310_0": {
-        "id": 999,
-        "name": "スロット310防具",
-        "rank": 1,
-        "gender": "男女共通",
-        "parts": "头",
-        "parts_id": 1,
-        "rare": 1,
-        "slotLv1": 1,
-        "slotLv2": 0,
-        "slotLv3": 1,
-        "slotLv4": 0,
-        "bougyo": 0,
-        "bougyo_max": 0,
-        "skill": [
-            {
-                "sname": "",
-                "lv": 0
-            },
-            {
-                "sname": "",
-                "lv": 0
-            }
-        ],
-        "def_f": 0,
-        "def_w": 0,
-        "def_t": 0,
-        "def_i": 0,
-        "def_d": 0,
-        "rare9": false
-    },
-    "s400_0": {
-        "id": 999,
-        "name": "スロット400防具",
-        "rank": 1,
-        "gender": "男女共通",
-        "parts": "头",
-        "parts_id": 1,
-        "rare": 1,
-        "slotLv1": 0,
-        "slotLv2": 0,
-        "slotLv3": 0,
-        "slotLv4": 1,
-        "bougyo": 0,
-        "bougyo_max": 0,
-        "skill": [
-            {
-                "sname": "",
-                "lv": 0
-            },
-            {
-                "sname": "",
-                "lv": 0
-            }
-        ],
-        "def_f": 0,
-        "def_w": 0,
-        "def_t": 0,
-        "def_i": 0,
-        "def_d": 0,
-        "rare9": false
-    },
-    "s410_0": {
-        "id": 999,
-        "name": "スロット410防具",
-        "rank": 1,
-        "gender": "男女共通",
-        "parts": "头",
-        "parts_id": 1,
-        "rare": 1,
-        "slotLv1": 1,
-        "slotLv2": 0,
-        "slotLv3": 0,
-        "slotLv4": 1,
-        "bougyo": 0,
-        "bougyo_max": 0,
-        "skill": [
-            {
-                "sname": "",
-                "lv": 0
-            },
-            {
-                "sname": "",
-                "lv": 0
-            }
-        ],
-        "def_f": 0,
-        "def_w": 0,
-        "def_t": 0,
-        "def_i": 0,
-        "def_d": 0,
-        "rare9": false
-    },
-    "s211_0": {
-        "id": 999,
-        "name": "スロット211防具",
-        "rank": 1,
-        "gender": "男女共通",
-        "parts": "头",
-        "parts_id": 1,
-        "rare": 1,
-        "slotLv1": 2,
-        "slotLv2": 1,
-        "slotLv3": 0,
-        "slotLv4": 0,
-        "bougyo": 0,
-        "bougyo_max": 0,
-        "skill": [
-            {
-                "sname": "",
-                "lv": 0
-            },
-            {
-                "sname": "",
-                "lv": 0
-            }
-        ],
-        "def_f": 0,
-        "def_w": 0,
-        "def_t": 0,
-        "def_i": 0,
-        "def_d": 0,
-        "rare9": false
-    },
-    "s221_0": {
-        "id": 999,
-        "name": "スロット221防具",
-        "rank": 1,
-        "gender": "男女共通",
-        "parts": "头",
-        "parts_id": 1,
-        "rare": 1,
-        "slotLv1": 1,
-        "slotLv2": 2,
-        "slotLv3": 0,
-        "slotLv4": 0,
-        "bougyo": 0,
-        "bougyo_max": 0,
-        "skill": [
-            {
-                "sname": "",
-                "lv": 0
-            },
-            {
-                "sname": "",
-                "lv": 0
-            }
-        ],
-        "def_f": 0,
-        "def_w": 0,
-        "def_t": 0,
-        "def_i": 0,
-        "def_d": 0,
-        "rare9": false
-    },
-    "s321_0": {
-        "id": 999,
-        "name": "スロット321防具",
-        "rank": 1,
-        "gender": "男女共通",
-        "parts": "头",
-        "parts_id": 1,
-        "rare": 1,
-        "slotLv1": 1,
-        "slotLv2": 1,
-        "slotLv3": 1,
-        "slotLv4": 0,
-        "bougyo": 0,
-        "bougyo_max": 0,
-        "skill": [
-            {
-                "sname": "",
-                "lv": 0
-            },
-            {
-                "sname": "",
-                "lv": 0
-            }
-        ],
-        "def_f": 0,
-        "def_w": 0,
-        "def_t": 0,
-        "def_i": 0,
-        "def_d": 0,
-        "rare9": false
-    },
-    "s330_0": {
-        "id": 999,
-        "name": "スロット330防具",
-        "rank": 1,
-        "gender": "男女共通",
-        "parts": "头",
-        "parts_id": 1,
-        "rare": 1,
-        "slotLv1": 0,
-        "slotLv2": 0,
-        "slotLv3": 2,
-        "slotLv4": 0,
-        "bougyo": 0,
-        "bougyo_max": 0,
-        "skill": [
-            {
-                "sname": "",
-                "lv": 0
-            },
-            {
-                "sname": "",
-                "lv": 0
-            }
-        ],
-        "def_f": 0,
-        "def_w": 0,
-        "def_t": 0,
-        "def_i": 0,
-        "def_d": 0,
-        "rare9": false
-    },
-    "999_0": {
-        "id": 999,
-        "name": "装備なし",
-        "rank": 1,
-        "gender": "男女共通",
-        "parts": "头",
-        "parts_id": 1,
-        "rare": 1,
-        "slotLv1": 0,
-        "slotLv2": 0,
-        "slotLv3": 0,
-        "slotLv4": 0,
-        "bougyo": 0,
-        "bougyo_max": 0,
-        "skill": [
-            {
-                "sname": "",
-                "lv": 0
-            },
-            {
-                "sname": "",
-                "lv": 0
-            }
-        ],
-        "def_f": 0,
-        "def_w": 0,
-        "def_t": 0,
-        "def_i": 0,
-        "def_d": 0,
-        "rare9": false
-    },
 
-
-
-
-
-
-
-    "9999991_1": {
-        "id": 9999991,
+    "498_1": {
+        "id": 498,
         "name": "冰咒头盔",
         "rank": 10,
         "gender": "通用",
@@ -24860,8 +23983,8 @@ var armor_list = {
         "def_d": -4,
         "rare9": false
     },
-    "9999991_2": {
-        "id": 9999991,
+    "498_2": {
+        "id": 498,
         "name": "冰咒铠甲",
         "rank": 10,
         "gender": "通用",
@@ -24894,8 +24017,8 @@ var armor_list = {
         "def_d": -4,
         "rare9": false
     },
-    "9999991_3": {
-        "id": 9999991,
+    "498_3": {
+        "id": 498,
         "name": "冰咒腕甲",
         "rank": 10,
         "gender": "通用",
@@ -24927,8 +24050,8 @@ var armor_list = {
         "def_d": -4,
         "rare9": false
     },
-    "9999991_4": {
-        "id": 9999991,
+    "498_4": {
+        "id": 498,
         "name": "冰咒护裙",
         "rank": 10,
         "gender": "通用",
@@ -24960,8 +24083,8 @@ var armor_list = {
         "def_d": -4,
         "rare9": false
     },
-    "9999991_5": {
-        "id": 9999991,
+    "498_5": {
+        "id": 498,
         "name": "冰咒护腿",
         "rank": 10,
         "gender": "通用",
@@ -24999,8 +24122,8 @@ var armor_list = {
         "rare9": false
     },
 
-    "9999992_1": {
-        "id": 9999992,
+    "499_1": {
+        "id": 499,
         "name": "克服天慧",
         "rank": 10,
         "gender": "男女共通",
@@ -25037,8 +24160,8 @@ var armor_list = {
         "def_d": 3,
         "rare9": false
     },
-    "9999992_2": {
-        "id": 9999992,
+    "499_2": {
+        "id": 499,
         "name": "克服天慧",
         "rank": 10,
         "gender": "男女共通",
@@ -25075,8 +24198,8 @@ var armor_list = {
         "def_d": 3,
         "rare9": false
     },
-    "9999992_3": {
-        "id": 9999992,
+    "499_3": {
+        "id": 499,
         "name": "克服天慧",
         "rank": 10,
         "gender": "男女共通",
@@ -25113,8 +24236,8 @@ var armor_list = {
         "def_d": 3,
         "rare9": false
     },
-    "9999992_4": {
-        "id": 9999992,
+    "499_4": {
+        "id": 499,
         "name": "克服天慧",
         "rank": 10,
         "gender": "男女共通",
@@ -25151,8 +24274,8 @@ var armor_list = {
         "def_d": 3,
         "rare9": false
     },
-    "9999992_5": {
-        "id": 9999992,
+    "499_5": {
+        "id": 499,
         "name": "克服天慧",
         "rank": 10,
         "gender": "男女共通",
@@ -25190,8 +24313,8 @@ var armor_list = {
         "rare9": true
     },
 
-    "9999993_1": {
-        "id": 9999993,
+    "500_1": {
+        "id": 500,
         "name": "荒天",
         "rank": 10,
         "gender": "男女共通",
@@ -25218,8 +24341,8 @@ var armor_list = {
         "def_d": -5,
         "rare9": true
     },
-    "9999993_2": {
-        "id": 9999993,
+    "500_2": {
+        "id": 500,
         "name": "荒天",
         "rank": 10,
         "gender": "男女共通",
@@ -25251,8 +24374,8 @@ var armor_list = {
         "def_d": -5,
         "rare9": true
     },
-    "9999993_3": {
-        "id": 9999993,
+    "500_3": {
+        "id": 500,
         "name": "荒天",
         "rank": 10,
         "gender": "男女共通",
@@ -25284,8 +24407,8 @@ var armor_list = {
         "def_d": -5,
         "rare9": true
     },
-    "9999993_4": {
-        "id": 9999993,
+    "500_4": {
+        "id": 500,
         "name": "荒天",
         "rank": 10,
         "gender": "男女共通",
@@ -25312,8 +24435,8 @@ var armor_list = {
         "def_d": -5,
         "rare9": true
     },
-    "9999993_5": {
-        "id": 9999993,
+    "500_5": {
+        "id": 500,
         "name": "荒天",
         "rank": 10,
         "gender": "男女共通",
@@ -25346,11 +24469,11 @@ var armor_list = {
         "rare9": true
     },
 
-    "9999994_1": {
-        "id": 9999994,
-        "name": "克服天廻",
+    "501_1": {
+        "id": 501,
+        "name": "克服天廻（男）",
         "rank": 10,
-        "gender": "男女共通",
+        "gender": "男",
         "parts": "头",
         "parts_id": 1,
         "rare": 9,
@@ -25379,11 +24502,11 @@ var armor_list = {
         "def_d": -4,
         "rare9": true
     },
-    "9999994_2": {
-        "id": 9999994,
-        "name": "克服天廻",
+    "501_2": {
+        "id": 501,
+        "name": "克服天廻（男）",
         "rank": 10,
-        "gender": "男女共通",
+        "gender": "男",
         "parts": "胸",
         "parts_id": 2,
         "rare": 9,
@@ -25417,11 +24540,11 @@ var armor_list = {
         "def_d": -4,
         "rare9": true
     },
-    "9999994_3": {
-        "id": 9999994,
-        "name": "克服天廻",
+    "501_3": {
+        "id": 501,
+        "name": "克服天廻（男）",
         "rank": 10,
-        "gender": "男女共通",
+        "gender": "男",
         "parts": "手",
         "parts_id": 3,
         "rare": 9,
@@ -25455,11 +24578,11 @@ var armor_list = {
         "def_d": -4,
         "rare9": true
     },
-    "9999994_4": {
-        "id": 9999994,
-        "name": "克服天廻",
+    "501_4": {
+        "id": 501,
+        "name": "克服天廻（男）",
         "rank": 10,
-        "gender": "男女共通",
+        "gender": "男",
         "parts": "腰",
         "parts_id": 4,
         "rare": 9,
@@ -25493,11 +24616,11 @@ var armor_list = {
         "def_d": -4,
         "rare9": true
     },
-    "9999994_5": {
-        "id": 9999994,
-        "name": "克服天廻",
+    "501_5": {
+        "id": 501,
+        "name": "克服天廻（男）",
         "rank": 10,
-        "gender": "男女共通",
+        "gender": "男",
         "parts": "腿",
         "parts_id": 5,
         "rare": 9,
@@ -25532,9 +24655,194 @@ var armor_list = {
         "rare9": true
     },
 
+    "506_1": {
+        "id": 506,
+        "name": "克服天廻（女）",
+        "rank": 10,
+        "gender": "女",
+        "parts": "头",
+        "parts_id": 1,
+        "rare": 9,
+        "slotLv1": 0,
+        "slotLv2": 0,
+        "slotLv3": 0,
+        "slotLv4": 2,
+        "bougyo": 124,
+        "bougyo_max": 142,
+        "skill": [
+            {
+                "sname": "合气",
+                "lv": 2,
+                "hex": "7A"
+            },
+            {
+                "sname": "坚如磐石",
+                "lv": 2,
+                "hex": "76"
+            }
+        ],
+        "def_f": -4,
+        "def_w": 3,
+        "def_t": -2,
+        "def_i": 2,
+        "def_d": -4,
+        "rare9": true
+    },
+    "506_2": {
+        "id": 506,
+        "name": "克服天廻（女）",
+        "rank": 10,
+        "gender": "女",
+        "parts": "胸",
+        "parts_id": 2,
+        "rare": 9,
+        "slotLv1": 2,
+        "slotLv2": 0,
+        "slotLv3": 1,
+        "slotLv4": 0,
+        "bougyo": 124,
+        "bougyo_max": 142,
+        "skill": [
+            {
+                "sname": "奋斗",
+                "lv": 2,
+                "hex": "91"
+            },
+            {
+                "sname": "匠",
+                "lv": 3,
+                "hex": "16"
+            },
+            {
+                "sname": "装填扩充",
+                "lv": 3,
+                "hex": "33"
+            }
+        ],
+        "def_f": -4,
+        "def_w": 3,
+        "def_t": -2,
+        "def_i": 2,
+        "def_d": -4,
+        "rare9": true
+    },
+    "506_3": {
+        "id": 506,
+        "name": "克服天廻（女）",
+        "rank": 10,
+        "gender": "女",
+        "parts": "手",
+        "parts_id": 3,
+        "rare": 9,
+        "slotLv1": 1,
+        "slotLv2": 0,
+        "slotLv3": 1,
+        "slotLv4": 0,
+        "bougyo": 124,
+        "bougyo_max": 142,
+        "skill": [
+            {
+                "sname": "狂龙症[翔]",
+                "lv": 1,
+                "hex": "8F"
+            },
+            {
+                "sname": "狂龙症【蚀】",
+                "lv": 1,
+                "hex": "75"
+            },
+            {
+                "sname": "攻击",
+                "lv": 3,
+                "hex": "01"
+            }
+        ],
+        "def_f": -4,
+        "def_w": 3,
+        "def_t": -2,
+        "def_i": 2,
+        "def_d": -4,
+        "rare9": true
+    },
+    "506_4": {
+        "id": 506,
+        "name": "克服天廻（女）",
+        "rank": 10,
+        "gender": "女",
+        "parts": "腰",
+        "parts_id": 4,
+        "rare": 9,
+        "slotLv1": 0,
+        "slotLv2": 1,
+        "slotLv3": 0,
+        "slotLv4": 1,
+        "bougyo": 124,
+        "bougyo_max": 142,
+        "skill": [
+            {
+                "sname": "狂龙症[翔]",
+                "lv": 1,
+                "hex": "8F"
+            },
+            {
+                "sname": "狂龙症【蚀】",
+                "lv": 1,
+                "hex": "75"
+            },
+            {
+                "sname": "弱点特效",
+                "lv": 2,
+                "hex": "08"
+            }
+        ],
+        "def_f": -4,
+        "def_w": 3,
+        "def_t": -2,
+        "def_i": 2,
+        "def_d": -4,
+        "rare9": true
+    },
+    "506_5": {
+        "id": 506,
+        "name": "克服天廻（女）",
+        "rank": 10,
+        "gender": "女",
+        "parts": "腿",
+        "parts_id": 5,
+        "rare": 9,
+        "slotLv1": 1,
+        "slotLv2": 0,
+        "slotLv3": 1,
+        "slotLv4": 1,
+        "bougyo": 124,
+        "bougyo_max": 142,
+        "skill": [
+            {
+                "sname": "狂龙症[翔]",
+                "lv": 1,
+                "hex": "8F"
+            },
+            {
+                "sname": "狂龙症【蚀】",
+                "lv": 1,
+                "hex": "75"
+            },
+            {
+                "sname": "奋斗",
+                "lv": 1,
+                "hex": "91"
+            }
+        ],
+        "def_f": -4,
+        "def_w": 3,
+        "def_t": -2,
+        "def_i": 2,
+        "def_d": -4,
+        "rare9": true
+    },
 
-    "9999995_1": {
-        "id": 9999995,
+    "502_1": {
+        "id": 502,
         "name": "原初爵银",
         "rank": 10,
         "gender": "男女共通",
@@ -25561,8 +24869,8 @@ var armor_list = {
         "def_d": -5,
         "rare9": true
     },
-    "9999995_2": {
-        "id": 9999995,
+    "502_2": {
+        "id": 502,
         "name": "原初爵银",
         "rank": 10,
         "gender": "男女共通",
@@ -25594,8 +24902,8 @@ var armor_list = {
         "def_d": -5,
         "rare9": true
     },
-    "9999995_3": {
-        "id": 9999995,
+    "502_3": {
+        "id": 502,
         "name": "原初爵银",
         "rank": 10,
         "gender": "男女共通",
@@ -25627,8 +24935,8 @@ var armor_list = {
         "def_d": -5,
         "rare9": true
     },
-    "9999995_4": {
-        "id": 9999995,
+    "502_4": {
+        "id": 502,
         "name": "原初爵银",
         "rank": 10,
         "gender": "男女共通",
@@ -25660,8 +24968,8 @@ var armor_list = {
         "def_d": -5,
         "rare9": true
     },
-    "9999995_5": {
-        "id": 9999995,
+    "502_5": {
+        "id": 502,
         "name": "原初爵银",
         "rank": 10,
         "gender": "男女共通",
