@@ -67,7 +67,7 @@
                     <label class="form-label">版本16.0.0</label>
                     <label class="form-label">version_code:123693D0</label>
                     <label class="form-label">TID:0100559011740000</label>
-                    <label class="form-label">BID:44C9289FBB51455F</label>                   
+                    <label class="form-label">BID:44C9289FBB51455F</label>
                 </div>
                 <div class="col col-sm-auto">
                     <label class="form-label">当前：<label id="curTitle" class="form-label"></label></label>
@@ -190,9 +190,7 @@
                                             <div class="col bg-info">孔位：<span class="armor_slot">---</span></div>
                                         </div>
                                         <div class="m-1 row decoration_select_container">
-                                            <select class="form-select col decoration_select">
-                                                <option>-----</option>
-                                            </select>
+                                            <input class="col form-control decoration_input">
                                         </div>
                                         <label class="form-label">装备技能：</label>
                                         <ul class="list-group p-1 armor_skill"></ul>
@@ -231,26 +229,40 @@
                     </div>
                     <div class="col">
                         <div class="row">
-                            <label class="form-label col-sm-auto"></label>
-                            <select class="form-select col decoration_select decoration_select_6_0">
-                                <option>-----</option>
+                            <input class="form-control decoration_input decoration_input_6_0" id="decoration_input_6_0">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="row">
+                            <input class="form-control decoration_input decoration_input_6_1" id="decoration_input_6_1">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="row">
+                            <input class="form-control decoration_input decoration_input_6_2" id="decoration_input_6_2">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="row">
+                            <label class="form-label col">武器孔位</label>
+                            <select class="form-select col" disabled>
+                                <option>444</option>
                             </select>
                         </div>
                     </div>
                     <div class="col">
                         <div class="row">
-                            <label class="form-label col-sm-auto"></label>
-                            <select class="form-select col decoration_select decoration_select_6_1">
-                                <option>-----</option>
-                            </select>
+                            <input class="form-control decoration_input decoration_input_7_0" id="decoration_input_7_0" list="slot4" placeholder="【4】">
                         </div>
                     </div>
                     <div class="col">
                         <div class="row">
-                            <label class="form-label col-sm-auto"></label>
-                            <select class="form-select col decoration_select decoration_select_6_2">
-                                <option>-----</option>
-                            </select>
+                            <input class="form-control decoration_input decoration_input_7_1" id="decoration_input_7_1" list="slot4" placeholder="【4】">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="row">
+                            <input class="form-control decoration_input decoration_input_7_2" id="decoration_input_7_2" list="slot4" placeholder="【4】">
                         </div>
                     </div>
                 </div>
@@ -265,6 +277,7 @@
                                     <th class="small">腰</th>
                                     <th class="small">腿</th>
                                     <th class="small">护石</th>
+                                    <th class="small">武器</th>
                                     <th class="small" style="text-align: right;">技能</th>
                                     <th class="small">合计</th>
                                 </tr>
@@ -332,7 +345,10 @@
         </div>
     </div>
 
-
+    <datalist id="slot4"></datalist>
+    <datalist id="slot3"></datalist>
+    <datalist id="slot2"></datalist>
+    <datalist id="slot1"></datalist>
     <script src="js/main.js"></script>
 </body>
 
