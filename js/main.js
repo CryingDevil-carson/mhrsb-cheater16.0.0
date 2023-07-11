@@ -20,6 +20,8 @@ var isStopRender = false;
 
 var cost_skill_hex = {};
 var DecoratrionSel = {};
+var DecoratrionNameMap = {};
+var DecoratrionHexLvMap = {};
 
 var PartIdxMap = {
     "1": "head",
@@ -47,6 +49,17 @@ var CharmData = {
         { "hex": "00", "lv": 0 },
     ]
 };
+var WeaponData = {
+    slot: "444",
+    decoration: [
+        { "hex": "00", "lv": 0 },
+        { "hex": "00", "lv": 0 },
+        { "hex": "00", "lv": 0 },
+    ]
+};
+
+
+
 var TmpCacheName = "临时缓存";
 var CacheObj = null;
 var MsgCount = 0;
@@ -137,10 +150,24 @@ async function loadCache(name) {
         showMsg("加载中:" + name);
         let tmp = cahe.PartMap;
         let tmpC = cahe.CharmData;
+        let tmpW = cahe.WeaponData;
         // startRender();
+        //用于以前的编号问题
+        let cmm = {
+            "9999991": "498",
+            "9999992": "499",
+            "9999993": "500",
+            "9999994": "506",
+            "9999995": "502",
+        }
         for (let idx in tmp) {
             let pd = tmp[idx];
             if (pd["eq_id"]) {
+                let aa = pd["eq_id"].split("_");
+                if (cmm[aa[0]]) {
+                    pd["eq_id"] = cmm[aa[0]] + "_" + aa[1];
+                }
+
                 $(".armor_select_" + idx).val(pd["eq_id"]);
                 $(".armor_select_" + idx).change();
                 // armor_container_
@@ -164,16 +191,15 @@ async function loadCache(name) {
                     let d = pd["decoration"][i];
 
                     if ((d["hex"] != "00") && (d["lv"] > 0)) {
-                        let v3 = `${idx}_${i}_${d["hex"]}_${d["lv"]}`;
-                        $(`.decoration_select_${idx}_${i}`).val(v3);
-                        $(`.decoration_select_${idx}_${i}`).change();
+                        let v3 = `${d["hex"]}_${d["lv"]}`;
+                        $(`.decoration_input_${idx}_${i}`).val(v3);
+                        $(`.decoration_input_${idx}_${i}`).trigger("change");
                     }
                 }
             }
         }
         //charm
         if (tmpC) {
-
             let v1 = `${1}_${tmpC["skill1Type"]}_${tmpC["skill1Hex"]}_${tmpC["skill1Lv"]}`;
             let v2 = `${2}_${tmpC["skill2Type"]}_${tmpC["skill2Hex"]}_${tmpC["skill2Lv"]}`;
             let v3 = tmpC["slot"];
@@ -186,12 +212,23 @@ async function loadCache(name) {
             for (let i = 0; i < tmpC["decoration"].length; i++) {
                 let d = tmpC["decoration"][i];
                 if ((d["hex"] != "00") && (d["lv"] > 0)) {
-                    let v4 = `${6}_${i}_${d["hex"]}_${d["lv"]}`;
-                    $(`.decoration_select_${6}_${i}`).val(v4);
-                    $(`.decoration_select_${6}_${i}`).change();
+                    let v4 = `${d["hex"]}_${d["lv"]}`;
+                    $(`.decoration_input_${6}_${i}`).val(v4);
+                    $(`.decoration_input_${6}_${i}`).trigger("change");
                 }
             }
             CharmData = tmpC;
+        }
+        if (tmpW) {
+            for (let i = 0; i < tmpW["decoration"].length; i++) {
+                let d = tmpW["decoration"][i];
+                if ((d["hex"] != "00") && (d["lv"] > 0)) {
+                    let v4 = `${d["hex"]}_${d["lv"]}`;
+                    $(`.decoration_input_${7}_${i}`).val(v4);
+                    $(`.decoration_input_${7}_${i}`).trigger("change");
+                }
+            }
+            WeaponData = tmpW;
         }
         if (name != TmpCacheName) $("#cache-name").val(name);
         $("#curTitle").text(name);
@@ -209,7 +246,7 @@ async function saveCache() {
     $("#saveCache-spinner").show();
     let name = $("#cache-name").val();
     if (name) {
-        await CacheObj.add(name, { "PartMap": PartMap, "CharmData": CharmData, "t": new Date });
+        await CacheObj.add(name, { "PartMap": PartMap, "CharmData": CharmData, "WeaponData": WeaponData, "t": new Date });
         $("#saveCache-spinner").hide();
         showMsg("保存成功:" + name);
         await loadList();
@@ -222,7 +259,7 @@ async function saveCache() {
 }
 //设置临时缓存
 function setTmpCache() {
-    CacheObj.add(TmpCacheName, { "PartMap": PartMap, "CharmData": CharmData, "t": new Date });
+    CacheObj.add(TmpCacheName, { "PartMap": PartMap, "CharmData": CharmData, "WeaponData": WeaponData, "t": new Date });
     showMsg("缓存成功");
 }
 async function delCache(name) {
@@ -315,8 +352,6 @@ function isSkipSkill(hex) {
     return !!exc[hex];
 }
 function initCharmSkillData() {
-
-
     let m1 = [];
     let m2 = [];
     for (let hex in skill_data) {
@@ -343,8 +378,11 @@ function initDecorationData() {
         let slot = sl[j];
         let a = [];
         for (let i in decoration_data) {
-            if (slot >= decoration_data[i]["slot"]) {
-                a.push(decoration_data[i]);
+            let di = decoration_data[i];
+            DecoratrionNameMap[di["dname"]] = di;
+            DecoratrionHexLvMap[di["hex"] + di["lv"]] = di;
+            if (slot >= di["slot"]) {
+                a.push(di);
             }
         }
         a.sort(function (a, b) {
@@ -354,11 +392,26 @@ function initDecorationData() {
                 n = parseInt(a.hex, 16) - parseInt(b.hex, 16);
             }
             return n;
-        })
+        });
+        let str = ""
+        for (let i = 0; i < a.length; i++) {
+            let d = a[i];
+            let dname = d["dname"];
+            let skill_hex = d["hex"];
+            let lv = d["lv"];
+            // opt.value = `${partIdx}_${idx}_${skill_hex}_${lv}`;
+            str = str + `<option value="${dname}">`;
+        }
         DecoratrionSel["" + slot] = a;
+        $("#slot" + slot).html(str);
     }
 }
-
+function getDecorationDataByHexLv(hex, lv) {
+    return DecoratrionHexLvMap[hex + lv];
+}
+function getDecorationDataByDName(dname) {
+    return DecoratrionNameMap[dname];
+}
 function initHtml() {
     let tmp = $(".armor_container").html();
 
@@ -377,7 +430,8 @@ function initHtml() {
         let dselStr = "";
         for (let i = 0; i < 3; i++) {
             let s = $(dsel);
-            s.addClass("decoration_select_" + idx + "_" + i);
+            s.addClass("decoration_input_" + idx + "_" + i);
+            s.attr("id", "decoration_input_" + idx + "_" + i);
             dselStr = dselStr + s[0].outerHTML;
         }
         // console.log(dselStr)
@@ -424,8 +478,10 @@ function bindEvents() {
     $("#charm_slot_select").on("change", function (event) {
         onSelectCharmSlot(event.target.value)
     });
-    $(".decoration_select").on("change", function (event) {
-        onSelectDecoration(event.target.value)
+
+
+    $(".decoration_input").on("change", function (event) {
+        onInputDecoration(event.target, event.target.value)
     });
 
 
@@ -449,9 +505,8 @@ function bindEvents() {
     $("#download").on("click", function (event) {
         downloadTxt();
     });
-    
+
     $(".dropdown-menu").on("click", ".cacheItem", function (event) {
-        console.log("load", event.target.text)
         loadCache(event.target.text);
     });
 
@@ -986,7 +1041,45 @@ function onSelectCharmSlot(value) {
     initDecorationSel("6");
     refreshShowArmorData();
 }
+function onInputDecoration(targ, value) {
+    targ = $(targ);
+    let id = targ.attr("id");
+    id = id.split("_");
+    let p = id[2];//decoration_input_6_1
+    let idx = id[3];
+    let v = value.split("_");
+    let info = null;
+    if (v.length > 1) {
+        // 6C_2
+        let r = value.split("_");
+        let hex = r[0];
+        let lv = parseInt(r[1]);
+        // dname
+        info = getDecorationDataByHexLv(hex, lv);
+        if (info) {
+            targ.val(info.dname);
+        }
+    } else {
+        info = getDecorationDataByDName(value);
+        if(value&&!info){
+            targ.val("");
+        }
+    }
 
+    // targ.data(info);
+
+    let d = PartMap[p];
+    if (p == "6") {
+        d = CharmData;
+    } else if (p == "7") {
+        d = WeaponData;
+    }
+
+    d["decoration"][idx]["hex"] = info ? info.hex : "00";
+    d["decoration"][idx]["lv"] = info ? info.lv : 0;
+    refreshShowArmorData();
+
+}
 function onSelectDecoration(value) {
     //
     if (!value) return;
@@ -1003,7 +1096,10 @@ function onSelectDecoration(value) {
     let d = PartMap[p];
     if (p == "6") {
         d = CharmData;
+    } else if (p == "7") {
+        d = WeaponData;
     }
+
     d["decoration"][idx]["hex"] = hex;
     d["decoration"][idx]["lv"] = lv;
     refreshShowArmorData();
@@ -1049,6 +1145,8 @@ function initDecorationSel(partIdx) {
     let s = "";
     if (partIdx == "6") {
         s = CharmData["slot"];
+    } else if (partIdx == "7") {
+        s = WeaponData;
     } else {
         let partData = PartMap[partIdx];
         if (partData) {
@@ -1060,38 +1158,31 @@ function initDecorationSel(partIdx) {
         s = s.split("");
         //清空
         for (let idx = 0; idx < 3; idx++) {
-            let orgVal = $(".decoration_select_" + partIdx + "_" + idx).val();
-            $(".decoration_select_" + partIdx + "_" + idx).html(`<option value="${partIdx}_${idx}_00_0">-----</option>`);
-            if (!s[idx] || (s[idx] == "0")) {
-                //清空
+            let si = parseInt(s[idx]);
+            let pc = ".decoration_input_" + partIdx + "_" + idx;
+            let orgVal = $(pc).val();
+            $(pc).attr("list", "");
+
+            if (!si || (si == 0)) {
+                //禁用
             } else {
-                let ary = getDecorationSelData(s[idx]);
-                for (let j = 0; j < ary.length; j++) {
-                    let d = ary[j];
-                    let opt = document.createElement("option")
-                    let dname = d["dname"];
-                    let skill_hex = d["hex"];
-                    let lv = d["lv"];
-                    opt.value = `${partIdx}_${idx}_${skill_hex}_${lv}`;
-                    let info = skill_data[skill_hex];
-                    if ([Attr.atk].includes(info["tag"][0])) {
-                        opt.style.color = "red";
-                    }else if ([ Attr.cri].includes(info["tag"][0])) {
-                        opt.style.color = "blue";
-                    }
-                    opt.text = dname + "-" + info["tag"].join(",");
-                    $(".decoration_select_" + partIdx + "_" + idx).append(opt);
-                }
+                $(pc).attr("list", "slot" + si);
+                $(pc).attr("placeholder", `【${si}】`);
             }
             //检查前面的值 和当前的值 如果不一样则清空 或者先禁用
             // console.log("orgVal",orgVal);
-            //6_2_83_1
-            $(".decoration_select_" + partIdx + "_" + idx).change();
+
+            // let info = getDecorationDataByDName(orgVal);
+            // if (info && si >= info["slot"]) {
+            //     $(pc).val(orgVal);
+            // }else{
+            $(pc).val("");
+            // }
+            $(pc).trigger("change");
         }
     }
     refreshShowArmorData();
 }
-
 
 
 function slot_simplify(armor_data) {
@@ -1197,13 +1288,13 @@ function refreshShowArmorData() {
 }
 
 function buildRenderData(hex) {
-    return [getSkillNameByHex(hex), 0, 0, 0, 0, 0, 0, 0, getSkillMaxByHex(hex)];
+    return [getSkillNameByHex(hex), 0, 0, 0, 0, 0, 0, 0, 0, getSkillMaxByHex(hex)];
 }
 //更新表格的信息
 function render_total_table() {
     let defTotal = { "p": 0, "f": 0, "w": 0, "t": 0, "i": 0, "d": 0 };
     let tt = ["p", "f", "w", "t", "i", "d"];
-    let pnn = ["头", "身", "手", "腰", "腿", "护石"];
+    let pnn = ["头", "身", "手", "腰", "腿", "护石", "武器"];
     let skillMap = {};
     for (let partIdx in PartMap) {
         let data = PartMap[partIdx];
@@ -1237,7 +1328,7 @@ function render_total_table() {
             idx = parseInt(partIdx);
             skillMap[hex][idx] = skillMap[hex][idx] + s["lv"];
             //合计
-            skillMap[hex][7] = skillMap[hex][7] + s["lv"];
+            skillMap[hex][8] = skillMap[hex][7] + s["lv"];
         }
 
         for (let i = 0; i < data["decoration"].length; i++) {
@@ -1250,7 +1341,7 @@ function render_total_table() {
                 idx = parseInt(partIdx);
                 skillMap[hex][idx] = skillMap[hex][idx] + d["lv"];
                 //合计
-                skillMap[hex][7] = skillMap[hex][7] + d["lv"];
+                skillMap[hex][8] = skillMap[hex][7] + d["lv"];
             }
 
 
@@ -1262,7 +1353,7 @@ function render_total_table() {
             skillMap[hex] = buildRenderData(hex)
         }
         skillMap[hex][6] = skillMap[hex][6] + CharmData.skill1Lv;
-        skillMap[hex][7] = skillMap[hex][7] + CharmData.skill1Lv;
+        skillMap[hex][8] = skillMap[hex][8] + CharmData.skill1Lv;
     }
     if (CharmData.skill2Lv) {
         let hex = CharmData.skill2Hex;
@@ -1270,7 +1361,7 @@ function render_total_table() {
             skillMap[hex] = buildRenderData(hex)
         }
         skillMap[hex][6] = skillMap[hex][6] + CharmData.skill2Lv;
-        skillMap[hex][7] = skillMap[hex][7] + CharmData.skill2Lv;
+        skillMap[hex][8] = skillMap[hex][8] + CharmData.skill2Lv;
     }
     for (let i = 0; i < CharmData["decoration"].length; i++) {
         let d = CharmData["decoration"][i];
@@ -1279,9 +1370,22 @@ function render_total_table() {
             if (!skillMap[hex]) {
                 skillMap[hex] = buildRenderData(hex)
             }
-            skillMap[hex][6] = skillMap[hex][6] + d["lv"];
-            //合计
             skillMap[hex][7] = skillMap[hex][7] + d["lv"];
+            //合计
+            skillMap[hex][8] = skillMap[hex][8] + d["lv"];
+        }
+
+    }
+    for (let i = 0; i < WeaponData["decoration"].length; i++) {
+        let d = WeaponData["decoration"][i];
+        if (d["lv"]) {
+            let hex = d["hex"];
+            if (!skillMap[hex]) {
+                skillMap[hex] = buildRenderData(hex)
+            }
+            skillMap[hex][7] = skillMap[hex][7] + d["lv"];
+            //合计
+            skillMap[hex][8] = skillMap[hex][8] + d["lv"];
         }
 
     }
@@ -1303,8 +1407,8 @@ function render_total_table() {
         }
         let d = skillMap[hex];
         let sn = d[0];
-        let cur = d[7];
-        let max = d[8];
+        let cur = d[8];
+        let max = d[9];
         let rs = getRateByHex(hex, cur < max ? cur : max);
         if (rs && rs.r) {
             criticalSum = criticalSum + rs.r;
@@ -1325,6 +1429,7 @@ function render_total_table() {
         <td class="small">${d[4]}</td>
         <td class="small">${d[5]}</td>
         <td class="small">${d[6]}</td>
+        <td class="small">${d[7]}</td>
         <td class="small" style="text-align: right;">${sn}</td>
         <td class="small">${getProgressbar(cur, max)}</td>        
         </tr>`
@@ -1444,7 +1549,24 @@ function genArmorTemplate(data) {
         let template_title = `[第0${data["eq_pos"]}格： ${data["eq_name"]} ${data["remarks"] || ""}]`;
         // k_skill_step start at 0x20, step 8, max 0x50, total 7 items
         let template = "";
-        //11D95B00
+        // 0C1001F6  0C2001F6
+        //0C1-0C5 头 胸 手 腰腿  001F6 系列
+        let ei = data["eq_id"].split("_");
+
+        let armor_hex = parseInt(ei[0]).toString(16).toUpperCase();
+        while (armor_hex.length < 4) {
+            armor_hex = "0" + armor_hex;
+        }
+        armor_hex = `0C${ei[1]}0` + armor_hex;
+
+        let armCode = `
+580F0000 ${version_code}
+580F1000 00000088
+580F1000 00000028
+580F1000 00000010
+580F1000 000000${data["eq_pos_hex"]}
+780F0000 00000030
+680F0000 ${armor_hex} 00000002`;
         for (i = 32; i < 88; i += 8) {
             let index = i / 8 - 4;
 
@@ -1470,6 +1592,7 @@ function genArmorTemplate(data) {
 680F0000 00000000 000000${k_skill_edit_hex}`;
             template += template_block;
         }
+        // str = template_title + armCode + template + "\n";
         str = template_title + template + "\n";
     }
     return str;
@@ -1550,7 +1673,7 @@ function copyToClipboard() {
     navigator.clipboard.writeText(content);
     document.getElementById("copy_result").innerText = "copied!";
 }
-function downloadTxt(){
+function downloadTxt() {
     let content = document.getElementById("template_result").innerText;
     const blob = new Blob([content], {
         type: "text/plain;charset=utf-8"
