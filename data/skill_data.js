@@ -126,7 +126,7 @@ var skill_data = {
     "6E": { "tag": [Attr.spec], "hex": "6E", "sname": "雷纹一致", "cost": -99, "max": 5, "lvType": "", "p1Max": 0, "p2Max": 0, },
     "6F": { "tag": [Attr.spec], "hex": "6F", "sname": "风雷合一", "cost": -99, "max": 5, "lvType": "", "p1Max": 0, "p2Max": 0, },
     "70": { "tag": [Attr.heal], "hex": "70", "sname": "气血", "cost": 12, "max": 3, "lvType": "B", "p1Max": 3, "p2Max": 2, },
-    "71": { "tag": [Attr.spec], "hex": "71", "sname": "伏魔耗命", "cost": -99, "max": 3, "lvType": "S", "p1Max": 3, "p2Max": 2, },
+    "71": { "tag": [Attr.spec], "hex": "71", "sname": "伏魔耗命", "cost": -99, "max": 3, "lvType": "S", "p1Max": 2, "p2Max": 1, },
     "72": { "tag": [Attr.spec], "hex": "72", "sname": "激昂", "cost": 9, "max": 3, "lvType": "B", "p1Max": 3, "p2Max": 2, },
     "73": { "tag": [Attr.spec], "hex": "73", "sname": "业铠【修罗】", "cost": 9, "max": 3, "lvType": "A", "p1Max": 3, "p2Max": 2, },
     "74": { "tag": [Attr.spec], "hex": "74", "sname": "因祸得福", "cost": 12, "max": 3, "lvType": "A", "p1Max": 0, "p2Max": 0, },
@@ -154,7 +154,7 @@ var skill_data = {
     "8A": { "tag": [Attr.spec], "hex": "8A", "sname": "风绕", "cost": 9, "max": 3, "lvType": "A", "p1Max": 3, "p2Max": 2, },
     "8B": { "tag": [Attr.spec], "hex": "8B", "sname": "粉尘绕", "cost": 9, "max": 3, "lvType": "A", "p1Max": 3, "p2Max": 2, },
     "8C": { "tag": [Attr.spec], "hex": "8C", "sname": "寒气炼成", "cost": 12, "max": 3, "lvType": "A", "p1Max": 3, "p2Max": 2, },
-    "8D": { "tag": [Attr.spec], "hex": "8D", "sname": "龙气转换", "cost": 12, "max": 3, "lvType": "A", "p1Max": 3, "p2Max": 1, },
+    "8D": { "tag": [Attr.spec], "hex": "8D", "sname": "龙气转换", "cost": 12, "max": 3, "lvType": "A", "p1Max": 3, "p2Max": 2, },
     "8E": { "tag": [Attr.spec], "hex": "8E", "sname": "天衣无缝", "cost": -99, "max": 3, "lvType": "", "p1Max": 0, "p2Max": 0, },
     "8F": { "tag": [Attr.spec], "hex": "8F", "sname": "狂龙症【翔】", "cost": 9, "max": 3, "lvType": "A", "p1Max": 3, "p2Max": 2, },
     
