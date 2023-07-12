@@ -7,10 +7,18 @@
 // var version_code = "12400610";//13.0.1
 // var version_code = "123693D0";//14.0.1
 // var version_code = "129E11D8";//15.0.1
-var version_code = "12A4FD80";//16.0.1
+// var version_code = "12A4FD80";//16.0.0
+// var version_code = "12A4A1E8";//16.0.1
+//                     129A7D80//16.0.1 美版
 
 var TID = "0100559011740000";
-var BID = "44C9289FBB51455F";
+// var BID = "44C9289FBB51455F";//16.0.0
+// var BID = "92DF51D37268A38C";//16.0.1
+var versionMap = {
+    "16.0.1": { "v": "16.0.1", "BID": "92DF51D37268A38C", "code": "12A4A1E8" },
+    "16.0.0": { "v": "16.0.0", "BID": "44C9289FBB51455F", "code": "12A4FD80" },
+}
+var currentVersion = versionMap["16.0.1"];
 
 var RefreshCount = 0;
 
@@ -68,7 +76,6 @@ var MsgLooping = false;
 init();
 async function init() {
 
-
     stopRender();
     for (let i in PartIdxMap) {
         PartMap[i] = null;
@@ -102,6 +109,8 @@ async function init() {
     await initCache();
     // await timeLag(500);
     $("#main").show();
+
+
 
 }
 
@@ -302,7 +311,7 @@ function isSkipSkill(hex) {
         "2A": { "sname": "耐力夺取", },
         "2B": { "sname": "滑走强化", },
         "2C": { "sname": "吹笛名人", },
-        "2E": { "sname": "炮弹装填", }, 
+        "2E": { "sname": "炮弹装填", },
         // "35": { "sname": "减轻后坐力", },
         // "36": { "sname": "抑制偏移", },
         "3C": { "sname": "快吃", },
@@ -414,6 +423,13 @@ function getDecorationDataByDName(dname) {
     return DecoratrionNameMap[dname];
 }
 function initHtml() {
+
+    let vHtml = "";
+    for (let v in versionMap) {
+        vHtml = vHtml + `<option value="${v}" text="${v}">${v}</option>`;
+    }
+    $("#version").html(vHtml);
+
     let tmp = $(".armor_container").html();
 
     let html = "";
@@ -499,8 +515,13 @@ function bindEvents() {
         switcMode();
     });
 
-
-
+    
+    $("#version").on("change", function (event) {        
+        currentVersion = versionMap[event.target.value];
+        $("#bid").text(currentVersion.BID);
+        $("#version_code").text(currentVersion.code);
+        genAllTemplate();
+    });
     $("#auto_gen_armor").on("change", function (event) {
         AutoGen = event.target.checked;
         genAllTemplate();
@@ -1568,7 +1589,7 @@ function genArmorTemplate(data) {
         armor_hex = `0C${ei[1]}0` + armor_hex;
 
         let armCode = `
-580F0000 ${version_code}
+580F0000 ${currentVersion.code}
 580F1000 00000088
 580F1000 00000028
 580F1000 00000010
@@ -1587,8 +1608,7 @@ function genArmorTemplate(data) {
             let k_skill_edit_hex = ks["k_skill_edit_hex"];
             //单个区block 暂时的规律是每个版本都会变开头的数据
             let template_block = `
-${AutoGen ? armCode : ""}
-580F0000 ${version_code}
+580F0000 ${currentVersion.code}
 580F1000 00000088
 580F1000 00000028
 580F1000 00000010
@@ -1601,8 +1621,8 @@ ${AutoGen ? armCode : ""}
 680F0000 00000000 000000${k_skill_edit_hex}`;
             template += template_block;
         }
-        // str = template_title + armCode + template + "\n";
-        str = template_title + template + "\n";
+        str = template_title + (AutoGen?armCode:"") + template + "\n";
+        
     }
     return str;
 }
@@ -1639,14 +1659,14 @@ function genCharmTemplate() {
     let charmType = "10100011";
     let b = `
 ${title}
-580F0000 ${version_code}
+580F0000 ${currentVersion.code}
 580F1000 00000088
 580F1000 00000028
 580F1000 00000010
 580F1000 ${box_pos_hex}
 780F0000 00000030
 680F0000 ${charmType} 00000003
-580F0000 ${version_code}
+580F0000 ${currentVersion.code}
 580F1000 00000088
 580F1000 00000028
 580F1000 00000010
@@ -1654,7 +1674,7 @@ ${title}
 580F1000 00000080
 780F0000 00000020
 640F0000 00000000 0000${s2Hex}${s1Hex}
-580F0000 ${version_code}
+580F0000 ${currentVersion.code}
 580F1000 00000088
 580F1000 00000028
 580F1000 00000010
@@ -1662,7 +1682,7 @@ ${title}
 580F1000 00000088
 780F0000 00000020
 680F0000 0000000${s2Lv} 0000000${s1Lv}
-580F0000 ${version_code}
+580F0000 ${currentVersion.code}
 580F1000 00000088
 580F1000 00000028
 580F1000 00000010
@@ -1694,7 +1714,7 @@ function downloadTxt() {
     // 设置文件的下载地址
     aTag.href = objectURL
     // 设置保存后的文件名称
-    aTag.download = `${BID}.txt`;
+    aTag.download = `${currentVersion.BID}.txt`;
     // 给 a 标签添加点击事件
     aTag.click();
 
