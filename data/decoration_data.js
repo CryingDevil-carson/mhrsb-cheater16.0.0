@@ -249,7 +249,7 @@ var decoration_data = {
     "265": { hex: '86', slot: 4, lv: 2, dname: '状态异常必定累积珠Ⅱ【4】' },
 
     "266": { hex: '02', slot: 4, lv: 2, dname: '挑战珠Ⅱ【4】' },
-
+    "267": { hex: '33', slot: 4, lv: 2, dname: '装填珠Ⅱ【4】' },
     
     
 
