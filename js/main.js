@@ -59,7 +59,7 @@ var WeaponData = {
 };
 
 
-
+var AutoGen = false;
 var TmpCacheName = "临时缓存";
 var CacheObj = null;
 var MsgCount = 0;
@@ -255,7 +255,6 @@ async function saveCache() {
         $("#cache-name").focus();
         $("#saveCache-spinner").hide();
     }
-
 }
 //设置临时缓存
 function setTmpCache() {
@@ -268,6 +267,7 @@ async function delCache(name) {
     showMsg("删除成功:" + name);
     await loadList();
 }
+
 function startRender() {
     isStopRender = false;
     refreshShowArmorData();
@@ -302,8 +302,9 @@ function isSkipSkill(hex) {
         "2A": { "sname": "耐力夺取", },
         "2B": { "sname": "滑走强化", },
         "2C": { "sname": "吹笛名人", },
-        "2E": { "sname": "炮弹装填", }, "35": { "sname": "减轻后坐力", },
-        "36": { "sname": "抑制偏移", },
+        "2E": { "sname": "炮弹装填", }, 
+        // "35": { "sname": "减轻后坐力", },
+        // "36": { "sname": "抑制偏移", },
         "3C": { "sname": "快吃", },
         "3D": { "sname": "耳栓", },
         "3E": { "sname": "风压耐性", },
@@ -345,7 +346,7 @@ function isSkipSkill(hex) {
         "6E": { "sname": "雷纹的一致", },
         "6F": { "sname": "风雷合一", },
         // "7B": { "sname": "提供", },
-        "7E": { "sname": "零件改造", },
+        // "7E": { "sname": "零件改造", },
         "81": { "sname": "走壁移动【翔】", },
         // "85": { "sname": "迅之气息", },
     }
@@ -498,6 +499,12 @@ function bindEvents() {
         switcMode();
     });
 
+
+
+    $("#auto_gen_armor").on("change", function (event) {
+        AutoGen = event.target.checked;
+        genAllTemplate();
+    });
 
     $("#copy_to_clipboard").on("click", function (event) {
         copyToClipboard();
@@ -1061,7 +1068,7 @@ function onInputDecoration(targ, value) {
         }
     } else {
         info = getDecorationDataByDName(value);
-        if(value&&!info){
+        if (value && !info) {
             targ.val("");
         }
     }
@@ -1328,7 +1335,7 @@ function render_total_table() {
             idx = parseInt(partIdx);
             skillMap[hex][idx] = skillMap[hex][idx] + s["lv"];
             //合计
-            skillMap[hex][8] = skillMap[hex][7] + s["lv"];
+            skillMap[hex][8] = skillMap[hex][8] + s["lv"];
         }
 
         for (let i = 0; i < data["decoration"].length; i++) {
@@ -1341,7 +1348,7 @@ function render_total_table() {
                 idx = parseInt(partIdx);
                 skillMap[hex][idx] = skillMap[hex][idx] + d["lv"];
                 //合计
-                skillMap[hex][8] = skillMap[hex][7] + d["lv"];
+                skillMap[hex][8] = skillMap[hex][8] + d["lv"];
             }
 
 
@@ -1545,8 +1552,9 @@ function genArmorTemplate(data) {
 
     let str = "";
     if (data) {
+
         //防御耐性- 0 耐性+ 1 防御+ 2
-        let template_title = `[第0${data["eq_pos"]}格： ${data["eq_name"]} ${data["remarks"] || ""}]`;
+        let template_title = `[第0${data["eq_pos"]}格： ${data["eq_name"]} ${data["remarks"] || ""}${AutoGen ? "(自动生成)" : ""}]`;
         // k_skill_step start at 0x20, step 8, max 0x50, total 7 items
         let template = "";
         // 0C1001F6  0C2001F6
@@ -1579,6 +1587,7 @@ function genArmorTemplate(data) {
             let k_skill_edit_hex = ks["k_skill_edit_hex"];
             //单个区block 暂时的规律是每个版本都会变开头的数据
             let template_block = `
+${AutoGen ? armCode : ""}
 580F0000 ${version_code}
 580F1000 00000088
 580F1000 00000028
