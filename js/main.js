@@ -16,6 +16,7 @@ var TID = "0100559011740000";
 // var BID = "92DF51D37268A38C";//16.0.1
 var versionMap = {
     "16.0.1": { "v": "16.0.1", "BID": "92DF51D37268A38C", "code": "12A4A1E8" },
+    "16.0.1-美版": { "v": "16.0.1-美版", "BID": "92DF51D37268A38C", "code": "129A7D80" },    
     "16.0.0": { "v": "16.0.0", "BID": "44C9289FBB51455F", "code": "12A4FD80" },
 }
 var currentVersion = versionMap["16.0.1"];
@@ -122,10 +123,10 @@ async function initCache() {
     await cc.init();
     CacheObj = cc;
     let last = await loadList();
+
+
     //默认显示最后一个设置    
     await loadCache(last);
-
-
 
 }
 //加载历史缓存列表
@@ -157,92 +158,99 @@ async function loadCache(name) {
     let cahe = await CacheObj.get(name);
     if (cahe) {
         showMsg("加载中:" + name);
-        let tmp = cahe.PartMap;
-        let tmpC = cahe.CharmData;
-        let tmpW = cahe.WeaponData;
-        // startRender();
-        //用于以前的编号问题
-        let cmm = {
-            "9999991": "498",
-            "9999992": "499",
-            "9999993": "500",
-            "9999994": "506",
-            "9999995": "502",
-        }
-        for (let idx in tmp) {
-            let pd = tmp[idx];
-            if (pd["eq_id"]) {
-                let aa = pd["eq_id"].split("_");
-                if (cmm[aa[0]]) {
-                    pd["eq_id"] = cmm[aa[0]] + "_" + aa[1];
-                }
-
-                $(".armor_select_" + idx).val(pd["eq_id"]);
-                $(".armor_select_" + idx).change();
-                // armor_container_
-                // small form-select k_skill_select
-                let sd = pd["k_skill"];
-                for (let i = 0; i < sd.length; i++) {
-                    let d = sd[i];
-
-                    let v1 = `${idx}_${i}_${d["k_skill_hex"]}_${d["k_skill_cost"]}`;
-                    $(".armor_container_" + idx).find(".k_skill_select").eq(i).val(v1);
-                    $(".armor_container_" + idx).find(".k_skill_select").eq(i).change();
-
-                    if (d["k_skill_edit_hex"] == "00") {
-                        continue;
+        try {
+            let tmp = cahe.PartMap;
+            let tmpC = cahe.CharmData;
+            let tmpW = cahe.WeaponData;
+            // startRender();
+            //用于以前的编号问题
+            let cmm = {
+                "9999991": "498",
+                "9999992": "499",
+                "9999993": "500",
+                "9999994": "506",
+                "9999995": "502",
+            }
+            for (let idx in tmp) {
+                let pd = tmp[idx];
+                if (pd["eq_id"]) {
+                    let aa = pd["eq_id"].split("_");
+                    if (cmm[aa[0]]) {
+                        pd["eq_id"] = cmm[aa[0]] + "_" + aa[1];
                     }
-                    let v2 = `${idx}_${i}_${d["k_skill_edit_hex"]}`;
-                    $(".armor_container_" + idx).find(".k_skill_change").eq(i).val(v2);
-                    $(".armor_container_" + idx).find(".k_skill_change").eq(i).change();
-                }
-                for (let i = 0; i < pd["decoration"].length; i++) {
-                    let d = pd["decoration"][i];
 
+                    $(".armor_select_" + idx).val(pd["eq_id"]);
+                    $(".armor_select_" + idx).change();
+                    // armor_container_
+                    // small form-select k_skill_select
+                    let sd = pd["k_skill"];
+                    for (let i = 0; i < sd.length; i++) {
+                        let d = sd[i];
+
+                        let v1 = `${idx}_${i}_${d["k_skill_hex"]}_${d["k_skill_cost"]}`;
+                        $(".armor_container_" + idx).find(".k_skill_select").eq(i).val(v1);
+                        $(".armor_container_" + idx).find(".k_skill_select").eq(i).change();
+
+                        if (d["k_skill_edit_hex"] == "00") {
+                            continue;
+                        }
+                        let v2 = `${idx}_${i}_${d["k_skill_edit_hex"]}`;
+                        $(".armor_container_" + idx).find(".k_skill_change").eq(i).val(v2);
+                        $(".armor_container_" + idx).find(".k_skill_change").eq(i).change();
+                    }
+                    for (let i = 0; i < pd["decoration"].length; i++) {
+                        let d = pd["decoration"][i];
+
+                        if ((d["hex"] != "00") && (d["lv"] > 0)) {
+                            let v3 = `${d["hex"]}_${d["lv"]}`;
+                            $(`.decoration_input_${idx}_${i}`).val(v3);
+                            $(`.decoration_input_${idx}_${i}`).trigger("change");
+                        }
+                    }
+                }
+            }
+            //charm
+            if (tmpC) {
+                let v1 = `${1}_${tmpC["skill1Type"]}_${tmpC["skill1Hex"]}_${tmpC["skill1Lv"]}`;
+                let v2 = `${2}_${tmpC["skill2Type"]}_${tmpC["skill2Hex"]}_${tmpC["skill2Lv"]}`;
+                let v3 = tmpC["slot"];
+                $("#charm_skill_select1").val(v1);
+                $("#charm_skill_select1").change();
+                $("#charm_skill_select2").val(v2);
+                $("#charm_skill_select2").change();
+                $("#charm_slot_select").val(v3);
+                $("#charm_slot_select").change();
+                for (let i = 0; i < tmpC["decoration"].length; i++) {
+                    let d = tmpC["decoration"][i];
                     if ((d["hex"] != "00") && (d["lv"] > 0)) {
-                        let v3 = `${d["hex"]}_${d["lv"]}`;
-                        $(`.decoration_input_${idx}_${i}`).val(v3);
-                        $(`.decoration_input_${idx}_${i}`).trigger("change");
+                        let v4 = `${d["hex"]}_${d["lv"]}`;
+                        $(`.decoration_input_${6}_${i}`).val(v4);
+                        $(`.decoration_input_${6}_${i}`).trigger("change");
                     }
                 }
+                CharmData = tmpC;
             }
-        }
-        //charm
-        if (tmpC) {
-            let v1 = `${1}_${tmpC["skill1Type"]}_${tmpC["skill1Hex"]}_${tmpC["skill1Lv"]}`;
-            let v2 = `${2}_${tmpC["skill2Type"]}_${tmpC["skill2Hex"]}_${tmpC["skill2Lv"]}`;
-            let v3 = tmpC["slot"];
-            $("#charm_skill_select1").val(v1);
-            $("#charm_skill_select1").change();
-            $("#charm_skill_select2").val(v2);
-            $("#charm_skill_select2").change();
-            $("#charm_slot_select").val(v3);
-            $("#charm_slot_select").change();
-            for (let i = 0; i < tmpC["decoration"].length; i++) {
-                let d = tmpC["decoration"][i];
-                if ((d["hex"] != "00") && (d["lv"] > 0)) {
-                    let v4 = `${d["hex"]}_${d["lv"]}`;
-                    $(`.decoration_input_${6}_${i}`).val(v4);
-                    $(`.decoration_input_${6}_${i}`).trigger("change");
+            if (tmpW) {
+                for (let i = 0; i < tmpW["decoration"].length; i++) {
+                    let d = tmpW["decoration"][i];
+                    if ((d["hex"] != "00") && (d["lv"] > 0)) {
+                        let v4 = `${d["hex"]}_${d["lv"]}`;
+                        $(`.decoration_input_${7}_${i}`).val(v4);
+                        $(`.decoration_input_${7}_${i}`).trigger("change");
+                    }
                 }
+                WeaponData = tmpW;
             }
-            CharmData = tmpC;
-        }
-        if (tmpW) {
-            for (let i = 0; i < tmpW["decoration"].length; i++) {
-                let d = tmpW["decoration"][i];
-                if ((d["hex"] != "00") && (d["lv"] > 0)) {
-                    let v4 = `${d["hex"]}_${d["lv"]}`;
-                    $(`.decoration_input_${7}_${i}`).val(v4);
-                    $(`.decoration_input_${7}_${i}`).trigger("change");
-                }
+            if (name != TmpCacheName) $("#cache-name").val(name);
+            $("#curTitle").text(name);
+            refreshShowArmorData();
+            showMsg("加载完成:" + name);
+        } catch (err) {
+            showMsg("加载缓存失败-" + JSON.stringify(err));
+            if (confirm(`加载缓存失败 是否删除【${name}】？`)) {
+                delCache(name);
             }
-            WeaponData = tmpW;
         }
-        if (name != TmpCacheName) $("#cache-name").val(name);
-        $("#curTitle").text(name);
-        refreshShowArmorData();
-        showMsg("加载完成:" + name);
     } else {
         //没有找到对应的缓存
         // showMsg("加载失败:" + name);
@@ -515,8 +523,8 @@ function bindEvents() {
         switcMode();
     });
 
-    
-    $("#version").on("change", function (event) {        
+
+    $("#version").on("change", function (event) {
         currentVersion = versionMap[event.target.value];
         $("#bid").text(currentVersion.BID);
         $("#version_code").text(currentVersion.code);
@@ -811,6 +819,8 @@ function initArmorSelect() {
 
 function initKSkillSelect(partIdx, armor_id) {
     let tb = $(".k_skill_tbody_" + partIdx);
+    //风雷没有加减技能
+    let isWT = ["336", "334"].includes(armor_id.split("_")[0]);
     if (tb) {
         let tr = tb.find("tr");
         for (let i = 0; i < tr.length; i++) {
@@ -821,7 +831,7 @@ function initKSkillSelect(partIdx, armor_id) {
             let count = 0;
             for (let j in skillPool) {
                 let skData = skillPool[j];
-                if (isFastMode) {
+                if (isFastMode && !isWT) {
                     if (/防御|耐性/.test(skData["name"])) {
                         continue;
                     }
@@ -842,7 +852,10 @@ function initKSkillSelect(partIdx, armor_id) {
             //初始化上次选择的减技能，增技能的内容
             clearOldNewSkillSel(partIdx, i);
             //默认前三个是减技能 并且 减去无用技能 第四个增加3孔位
-            if (isFastMode) {
+
+
+            if (isFastMode && !isWT) {
+
                 if (i < 3) {
                     sel.val(`${partIdx}_${i}_95_-10`);
                     sel.change();
@@ -861,7 +874,6 @@ function initKSkillSelect(partIdx, armor_id) {
     }
 }
 function onSelectArmor(armor_id) {
-    // console.log(armor_id)
     if (armor_id == "-----") {
         //清空数据
         PartMap[partIdx] = null;
@@ -874,7 +886,6 @@ function onSelectArmor(armor_id) {
     if (!data || (data["eq_id"] != armor_id)) {
         data = createPartData(partIdx, armor_id);
     }
-
     PartMap[partIdx] = data;
     initKSkillSelect(partIdx, armor_id);
     initDecorationSel(partIdx);
@@ -897,7 +908,6 @@ function onSelectKSkill(value) {
     let k_skill_cost = parseInt(t_values[3]);
 
     clearOldNewSkillSel(partIdx, idx);
-
     let skillSel = $(".k_skill_tbody_" + partIdx).find("tr").eq(parseInt(idx)).find(".k_skill_change");
     let partData = PartMap[partIdx];
     let type = "";
@@ -1293,14 +1303,11 @@ function refreshShowArmorData() {
 
     if (isStopRender) return;
     RefreshCount++;
-    // console.log("come in ", RefreshCount);
     setTimeout(function () {
         RefreshCount--;
         if (RefreshCount) {
-            // console.log("return", RefreshCount);
             return;
         }
-        // console.log("doIt", RefreshCount);
         for (let partIdx in PartMap) {
             let data = PartMap[partIdx];
             if (data) {
@@ -1621,8 +1628,8 @@ function genArmorTemplate(data) {
 680F0000 00000000 000000${k_skill_edit_hex}`;
             template += template_block;
         }
-        str = template_title + (AutoGen?armCode:"") + template + "\n";
-        
+        str = template_title + (AutoGen ? armCode : "") + template + "\n";
+
     }
     return str;
 }
