@@ -9,21 +9,17 @@
 // var version_code = "129E11D8";//15.0.1
 // var version_code = "12A4FD80";//16.0.0
 // var version_code = "12A4A1E8";//16.0.1
-// var version_code = "129A7D80";//16.0.1 美版
+//                     129A7D80//16.0.1 美版
 
 var TID = "0100559011740000";
 // var BID = "44C9289FBB51455F";//16.0.0
 // var BID = "92DF51D37268A38C";//16.0.1
-// var BID = "D2FD97779381FB9A"//16.0.2
-
 var versionMap = {
-    "16.0.2-港日": { "v": "16.0.2-港日", "BID": "D2FD97779381FB9A", "code": "12B157C0" },
-    "16.0.1-港日": { "v": "16.0.1-港日", "BID": "92DF51D37268A38C", "code": "12A4A1E8" },
+    "16.0.1": { "v": "16.0.1", "BID": "92DF51D37268A38C", "code": "12A4A1E8" },
     "16.0.1-美版": { "v": "16.0.1-美版", "BID": "92DF51D37268A38C", "code": "129A7D80" },
     "16.0.0": { "v": "16.0.0", "BID": "44C9289FBB51455F", "code": "12A4FD80" },
 }
-
-var currentVersion = versionMap["16.0.2-港日"];
+var currentVersion = versionMap["16.0.1"];
 
 var RefreshCount = 0;
 
@@ -51,8 +47,30 @@ var PartMapAry = [];//name 用来排序
 var CurData = {
     "name": "",
     "partMap": {},
-    "charmData": createCharmData(),
-    "weaponData": createWeaponData(),
+    "charmData": {
+        sel1: [],
+        sel2: [],
+        skill1Hex: "00",
+        skill1Lv: 0,
+        skill1Type: "",
+        skill2Hex: "00",
+        skill2Lv: 0,
+        skill2Type: "",
+        slot: "000",
+        decoration: [
+            { "hex": "00", "lv": 0 },
+            { "hex": "00", "lv": 0 },
+            { "hex": "00", "lv": 0 },
+        ]
+    },
+    "weaponData": {
+        slot: "444",
+        decoration: [
+            { "hex": "00", "lv": 0 },
+            { "hex": "00", "lv": 0 },
+            { "hex": "00", "lv": 0 },
+        ]
+    },
 };
 var PartMap = {};
 var CharmData = {
@@ -71,18 +89,22 @@ var CharmData = {
         { "hex": "00", "lv": 0 },
     ]
 };
+var WeaponData = {
+    slot: "444",
+    decoration: [
+        { "hex": "00", "lv": 0 },
+        { "hex": "00", "lv": 0 },
+        { "hex": "00", "lv": 0 },
+    ]
+};
 
 
 var AutoGen = false;
-var CharmSkillMax = false;
-var ZipSameItem = false;
 var TmpCacheName = "临时缓存";
 var CacheObj = null;
-var CList = [];
 var MsgCount = 0;
 var MsgAry = [];
 var MsgLooping = false;
-
 init();
 async function init() {
 
@@ -113,7 +135,6 @@ async function init() {
     initCharmSel();
     bindEvents();
 
-    $("#version").change();
     $("#menu2").hide();
     startRender();
     showMsg("初始化完成");
@@ -142,29 +163,17 @@ async function initCache() {
 //加载历史缓存列表
 async function loadList() {
     let cl = await CacheObj.readAll();
-    CList = [];
+    //     <ul class="dropdown-menu">
+    //     <li><button class="dropdown-item" href="#">Action</button></li>                            
+    // </ul>
     cl.sort(function (a, b) {
         return b.v.t - a.v.t;
-    });
-
+    })
     let str = "";
     let cl0 = ((cl && cl[0]) ? cl[0]["k"] : TmpCacheName);
-    if (cl0) {
-        PartMapAry.push(cl0);
-    }
     for (let i = 0; i < cl.length; i++) {
-
         let n = cl[i]["k"];
         let t = cl[i]["v"]["t"];
-        cl[i]["v"]["name"] = n;
-        CList.push(cl[i]["v"]["name"]);
-        let tmp = cl[i]["v"];
-        if (!tmp["name"]) tmp["name"] = n;
-        if (!tmp["partMap"]) tmp["partMap"] = tmp["PartMap"];
-        if (!tmp["charmData"]) tmp["charmData"] = tmp["CharmData"];
-        if (!tmp["weaponData"]) tmp["weaponData"] = tmp["WeaponData"];
-        // PartMapAry.push(n);
-        PartMapObj[n] = tmp;
         t = format(t);
         str = str + `<li title="${n}-${t}"><a class="dropdown-item ">
         <div class="col col-sm-auto">
@@ -173,37 +182,19 @@ async function loadList() {
         </div>
         </a></li>`;
     }
-    $(".dropdown-menu-cache").html(str);
-    loadCompareList();
+    $(".dropdown-menu").html(str);
     return cl0;
 }
-function loadCompareList() {
-
-    let str2 = "";
-    for (let i = 0; i < CList.length; i++) {
-
-        let n = CList[i];
-        //已经在对比列表的 不加入
-        if (PartMapAry.includes(n)) continue;
-        str2 = str2 + `<li title="${n}"><a class="dropdown-item ">
-        <div class="col col-sm-auto">
-        <a class="compareItem" >${n}<a>
-        <a class="btn btn-danger addToCompare right" style="float: right;">添加<a>
-        </div>
-        </a></li>`;
-    }
-    $(".dropdown-menu-compare").html(str2);
-}
 async function loadCache(name) {
-    let cahe = await execLoad(name);
+    let cahe = await CacheObj.get(name);
     if (cahe) {
         showMsg("加载中:" + name);
         try {
 
             // cahe.Name;
-            let tmp = cahe.PartMap || cahe.partMap;;
-            let tmpC = cahe.CharmData || cahe.charmData;
-            let tmpW = cahe.WeaponData || cahe.weaponData;
+            let tmp = cahe.PartMap;
+            let tmpC = cahe.CharmData;
+            let tmpW = cahe.WeaponData;
             // startRender();
             //用于以前的编号问题
             let cmm = {
@@ -285,7 +276,6 @@ async function loadCache(name) {
                 }
                 CurData.weaponData = tmpW;
             }
-            CurData.name = name;
             if (name != TmpCacheName) $("#cache-name").val(name);
             $("#curTitle").text(name);
             refreshShowArmorData();
@@ -308,8 +298,7 @@ async function saveCache() {
     $("#saveCache-spinner").show();
     let name = $("#cache-name").val();
     if (name) {
-        CurData.name = name;
-        await execSave(name, CurData.partMap, CurData.charmData, CurData.weaponData);
+        await CacheObj.add(name, { "Name": name, "PartMap": CurData.partMap, "CharmData": CurData.charmData, "WeaponData": CurData.weaponData, "t": new Date });
         $("#saveCache-spinner").hide();
         //需要更新名称
         $("#cache-name").val(name);
@@ -322,34 +311,9 @@ async function saveCache() {
     }
 }
 //设置临时缓存
-async function setTmpCache() {
-    await execSave(TmpCacheName, CurData.partMap, CurData.charmData, CurData.weaponData);
+function setTmpCache() {
+    CacheObj.add(TmpCacheName, { "Name": name, "PartMap": CurData.partMap, "CharmData": CurData.charmData, "WeaponData": CurData.weaponData, "t": new Date });
     showMsg("缓存成功");
-}
-async function execSave(n, p, c, w, t) {
-    await CacheObj.add(n, { "name": n, "partMap": p, "charmData": c, "weaponData": w, "t": t ? t : new Date() });
-}
-async function execLoad(n) {
-
-    let cache = null;
-    try {
-        cache = await CacheObj.get(n);
-        if (cache.PartMap) {
-            cache.partMap = cache.PartMap;
-            delete (cache.PartMap);
-            cache.charmData = cache.CharmData;
-            delete (cache.CharmData);
-            cache.weaponData = cache.WeaponData;
-            delete (cache.WeaponData);
-            if (!cache.name) cache.name = n;
-            delete (cache.Name);
-            await execSave(cache.name, cache.partMap, cache.charmData, cache.weaponData, cache.t);
-        }
-    } catch (err) {
-        console.log(err);
-        showMsg("获取缓存失败" + err.message);
-    }
-    return cache;
 }
 async function delCache(name) {
     await CacheObj.delete(name);
@@ -607,14 +571,6 @@ function bindEvents() {
         AutoGen = event.target.checked;
         genAllTemplate();
     });
-    $("#zipSame").on("change", function (event) {
-        ZipSameItem = event.target.checked;
-        zipSame();
-    });
-    $("#charm_skill_max").on("change", function (event) {
-        CharmSkillMax = event.target.checked;
-        genAllTemplate();
-    });
 
     $("#copy_to_clipboard").on("click", function (event) {
         copyToClipboard();
@@ -623,16 +579,12 @@ function bindEvents() {
         downloadTxt();
     });
 
-    $(".dropdown-menu-cache").on("click", ".cacheItem", function (event) {
+    $(".dropdown-menu").on("click", ".cacheItem", function (event) {
         loadCache(event.target.text);
     });
 
-    $(".dropdown-menu-cache").on("click", ".deleteCache", function (event) {
+    $(".dropdown-menu").on("click", ".deleteCache", function (event) {
         delCache($(event.target).parent().find(".cacheItem").text());
-    });
-
-    $(".dropdown-menu-compare").on("click", ".addToCompare", function (event) {
-        addToCompare($(event.target).parent().find(".compareItem").text())
     });
 
     $("#skillInfo").on("click", ".skill_info_div", function (event) {
@@ -646,12 +598,6 @@ function bindEvents() {
         }
         clickSkillInfo($(targ).attr("id"), $(targ).parent().parent().attr("title"));
         event.stopPropagation();
-    });
-
-
-    $("#skill_table_head").on("click", ".remove_compare", function (event) {
-        let targ = event.target;
-        removeFromCompare($(targ).attr("name"));
     });
 
 
@@ -1265,15 +1211,11 @@ function setToPartDataSkillsChange(partIdx) {
     }
 }
 
-function intToHex(n) {
-    if (!n) n = 0;
-    return (parseInt(n)).toString(16).toUpperCase();
-}
 
 function getBoxNumberHex(partIdx) {
     let iPlace = parseInt(partIdx) - 1;
     let eq_pos_hex = 32 + iPlace * 8;
-    return intToHex(eq_pos_hex);
+    return eq_pos_hex.toString(16);
 }
 
 
@@ -1396,35 +1338,6 @@ function createPartData(partIdx, armor_id) {
     return data;
 }
 
-function createCharmData() {
-    return {
-        sel1: [],
-        sel2: [],
-        skill1Hex: "00",
-        skill1Lv: 0,
-        skill1Type: "",
-        skill2Hex: "00",
-        skill2Lv: 0,
-        skill2Type: "",
-        slot: "000",
-        decoration: [
-            { "hex": "00", "lv": 0 },
-            { "hex": "00", "lv": 0 },
-            { "hex": "00", "lv": 0 },
-        ]
-    }
-}
-function createWeaponData() {
-    return {
-        slot: "444",
-        decoration: [
-            { "hex": "00", "lv": 0 },
-            { "hex": "00", "lv": 0 },
-            { "hex": "00", "lv": 0 },
-        ]
-    }
-
-}
 /////////////////////////////////////////////////////更新界面信息//////////////////////////////////////////////////////////////
 
 
@@ -1437,7 +1350,7 @@ function refreshShowArmorData() {
         if (RefreshCount) {
             return;
         }
-
+        
         for (let partIdx in CurData.partMap) {
             let data = CurData.partMap[partIdx];
             if (data) {
@@ -1458,251 +1371,161 @@ function buildRenderData(hex) {
 }
 //更新表格的信息
 function render_total_table() {
+    let defTotal = { "p": 0, "f": 0, "w": 0, "t": 0, "i": 0, "d": 0 };
+    let tt = ["p", "f", "w", "t", "i", "d"];
+    let pnn = ["头", "身", "手", "腰", "腿", "护石", "武器"];
+    let skillMap = {};
+    for (let partIdx in CurData.partMap) {
+        let data = CurData.partMap[partIdx];
+        if (!data) continue;
+        if (!data) data = {};
+        document.getElementById(`armor_${partIdx}_name`).innerHTML = data["eq_name"] || pnn[parseInt(partIdx) - 1];
+        document.getElementById(`armor_${partIdx}_pos`).innerHTML = data["eq_pos"] || partIdx;
 
-    let allSkillMap = {};
-    let th = `<th class="small" style="text-align: right;"></th>`;
-    let tb = "";
+        document.getElementById(`slot_${partIdx}`).innerHTML = data["eq_k_slot"] || "0";
 
-    // console.log(CurData)
-    for (let i = 0; i < PartMapAry.length; i++) {
-        let name = PartMapAry[i];
-        if (CurData.name == name) {
-            PartMapAry.splice(i, 1);
+        let defk = data["eq_k_def"] || {};
+        for (let i = 0; i < tt.length; i++) {
+            let t = tt[i];
+            let d = defk[[`def_${t}`]] || 0;
+            document.getElementById(`def_${partIdx}_${t}`).innerHTML = d;
+            defTotal[t] = defTotal[t] + d;
         }
-    }
-    PartMapAry.unshift(CurData.name);
-    for (let j = 0; j < PartMapAry.length; j++) {
-        let name = PartMapAry[j];
-        doRender(PartMapObj[name], CurData.name == name);
-    }
 
-
-
-    let keys = Object.keys(allSkillMap);
-    keys.sort(function (a, b) {
-        return parseInt(a, 16) - parseInt(b, 16);
-    });
-
-    for (let i = 0; i < keys.length; i++) {
-        let hex = keys[i];
-        if (isSkipSkill(hex)) {
-            continue;
-        }
-        let d = allSkillMap[hex];
-        let sn = d["sn"];
-        let max = d["max"];
-        let dm = d["map"];
-        let allSame = (d["vm"].length == 1);
-        tb = tb + `<tr class="${allSame ? "same-skill-cur" : ""}" ><td class="small" style="text-align: right;">${sn}</td>`;
-
-        for (let j = 0; j < PartMapAry.length; j++) {
-            let name = PartMapAry[j];
-            tb = tb + `<td class="small">${dm[name] || ""}</td>`;
-        }
-        tb = tb + `</tr>`;
-    }
-    // console.log(allSkillMap)
-    for (let j = 0; j < PartMapAry.length; j++) {
-        let name = PartMapAry[j];
-        // th = th + `<th class="small"><button><span>${name}/${PartMapObj[name]["cri"] || 0}</span></button></th>`
-        th = th + `<th class="small"> <button type="button" class="btn btn-secondary switch_to_cache">${name}/会心${PartMapObj[name]["cri"] || 0} <span class="badge text-bg-danger remove_compare" title="从比较列表中移除" name="${name}">x</span></button></th>`
-    }
-    document.getElementById("skill_table_head").innerHTML = th;
-    document.getElementById("skill_table").innerHTML = tb;
-    zipSame();
-
-
-
-    function doRender(ptr, isSet) {
-
-        let name = ptr.name;
-        let defTotal = { "p": 0, "f": 0, "w": 0, "t": 0, "i": 0, "d": 0 };
-        let tt = ["p", "f", "w", "t", "i", "d"];
-        let pnn = ["头", "身", "手", "腰", "腿", "护石", "武器"];
-        let skillMap = {};
-        for (let partIdx in ptr.partMap) {
-            let data = ptr.partMap[partIdx];
-            if (!data) continue;
-            if (!data) data = {};
-            if (isSet) {
-                document.getElementById(`armor_${partIdx}_name`).innerHTML = data["eq_name"] || pnn[parseInt(partIdx) - 1];
-                document.getElementById(`armor_${partIdx}_pos`).innerHTML = data["eq_pos"] || partIdx;
-                document.getElementById(`slot_${partIdx}`).innerHTML = data["eq_k_slot"] || "0";
-                let defk = data["eq_k_def"] || {};
-                for (let i = 0; i < tt.length; i++) {
-                    let t = tt[i];
-                    let d = defk[[`def_${t}`]] || 0;
-                    document.getElementById(`def_${partIdx}_${t}`).innerHTML = d;
-                    defTotal[t] = defTotal[t] + d;
-                }
+        //怪异后的技能（包括本体装备）
+        let skm = data["eq_k_skill"];
+        for (let skill_hex in skm) {
+            let s = skm[skill_hex];
+            if (s["lv"] <= 0) {
+                //负数或0的 不处理
+                continue;
             }
-
-            //怪异后的技能（包括本体装备）
-            let skm = data["eq_k_skill"];
-            for (let skill_hex in skm) {
-                let s = skm[skill_hex];
-                if (s["lv"] <= 0) {
-                    //负数或0的 不处理
-                    continue;
-                }
-                let hex = s["hex"];
-                if (!skillMap[hex]) {
-                    skillMap[hex] = buildRenderData(hex)
-                }
-                idx = parseInt(partIdx);
-                skillMap[hex][idx] = skillMap[hex][idx] + s["lv"];
-                //合计
-                skillMap[hex][8] = skillMap[hex][8] + s["lv"];
-            }
-
-            for (let i = 0; i < data["decoration"].length; i++) {
-                let d = data["decoration"][i];
-                if (d["lv"]) {
-                    let hex = d["hex"];
-                    if (!skillMap[hex]) {
-                        skillMap[hex] = buildRenderData(hex)
-                    }
-                    idx = parseInt(partIdx);
-                    skillMap[hex][idx] = skillMap[hex][idx] + d["lv"];
-                    //合计
-                    skillMap[hex][8] = skillMap[hex][8] + d["lv"];
-                }
-
-
-            }
-        }
-        //
-        if (isSet) {
-            // <div class="col list-group-item-warning rounded">雷: <span id="def_t">0</span></div>
-            for (let i = 0; i < tt.length; i++) {
-                let t = tt[i];
-                document.getElementById(`def_total_${t}`).innerHTML = defTotal[t];;
-            }
-            $(".skill_info_btn").attr("disabled", true);
-        }
-        if (ptr.charmData.skill1Lv) {
-            let hex = ptr.charmData.skill1Hex;
+            let hex = s["hex"];
             if (!skillMap[hex]) {
                 skillMap[hex] = buildRenderData(hex)
             }
-            skillMap[hex][6] = skillMap[hex][6] + ptr.charmData.skill1Lv;
-            skillMap[hex][8] = skillMap[hex][8] + ptr.charmData.skill1Lv;
+            idx = parseInt(partIdx);
+            skillMap[hex][idx] = skillMap[hex][idx] + s["lv"];
+            //合计
+            skillMap[hex][8] = skillMap[hex][8] + s["lv"];
         }
-        if (ptr.charmData.skill2Lv) {
-            let hex = ptr.charmData.skill2Hex;
-            if (!skillMap[hex]) {
-                skillMap[hex] = buildRenderData(hex)
-            }
-            skillMap[hex][6] = skillMap[hex][6] + ptr.charmData.skill2Lv;
-            skillMap[hex][8] = skillMap[hex][8] + ptr.charmData.skill2Lv;
-        }
-        for (let i = 0; i < ptr.charmData["decoration"].length; i++) {
-            let d = ptr.charmData["decoration"][i];
+
+        for (let i = 0; i < data["decoration"].length; i++) {
+            let d = data["decoration"][i];
             if (d["lv"]) {
                 let hex = d["hex"];
                 if (!skillMap[hex]) {
                     skillMap[hex] = buildRenderData(hex)
                 }
-                skillMap[hex][7] = skillMap[hex][7] + d["lv"];
+                idx = parseInt(partIdx);
+                skillMap[hex][idx] = skillMap[hex][idx] + d["lv"];
                 //合计
                 skillMap[hex][8] = skillMap[hex][8] + d["lv"];
             }
 
+
         }
-        if (ptr.weaponData) {
-            for (let i = 0; i < ptr.weaponData["decoration"].length; i++) {
-                let d = ptr.weaponData["decoration"][i];
-                if (d["lv"]) {
-                    let hex = d["hex"];
-                    if (!skillMap[hex]) {
-                        skillMap[hex] = buildRenderData(hex)
-                    }
-                    skillMap[hex][7] = skillMap[hex][7] + d["lv"];
-                    //合计
-                    skillMap[hex][8] = skillMap[hex][8] + d["lv"];
-                }
-
+    }
+    if (CurData.charmData.skill1Lv) {
+        let hex = CurData.charmData.skill1Hex;
+        if (!skillMap[hex]) {
+            skillMap[hex] = buildRenderData(hex)
+        }
+        skillMap[hex][6] = skillMap[hex][6] + CurData.charmData.skill1Lv;
+        skillMap[hex][8] = skillMap[hex][8] + CurData.charmData.skill1Lv;
+    }
+    if (CurData.charmData.skill2Lv) {
+        let hex = CurData.charmData.skill2Hex;
+        if (!skillMap[hex]) {
+            skillMap[hex] = buildRenderData(hex)
+        }
+        skillMap[hex][6] = skillMap[hex][6] + CurData.charmData.skill2Lv;
+        skillMap[hex][8] = skillMap[hex][8] + CurData.charmData.skill2Lv;
+    }
+    for (let i = 0; i < CurData.charmData["decoration"].length; i++) {
+        let d = CurData.charmData["decoration"][i];
+        if (d["lv"]) {
+            let hex = d["hex"];
+            if (!skillMap[hex]) {
+                skillMap[hex] = buildRenderData(hex)
             }
+            skillMap[hex][7] = skillMap[hex][7] + d["lv"];
+            //合计
+            skillMap[hex][8] = skillMap[hex][8] + d["lv"];
         }
 
-
-        let keys = Object.keys(skillMap);
-        keys.sort(function (a, b) {
-            return parseInt(a, 16) - parseInt(b, 16);
-        });
-
-        //会心率
-        let critical = [];
-        let criticalSum = 0;
-
-
-        for (let i = 0; i < keys.length; i++) {
-            let hex = keys[i];
-            if (isSkipSkill(hex)) {
-                continue;
+    }
+    for (let i = 0; i < CurData.weaponData["decoration"].length; i++) {
+        let d = CurData.weaponData["decoration"][i];
+        if (d["lv"]) {
+            let hex = d["hex"];
+            if (!skillMap[hex]) {
+                skillMap[hex] = buildRenderData(hex)
             }
-            let d = skillMap[hex];
-            let sn = d[0];
-            let cur = d[8];
-            let max = d[9];
-            if (!allSkillMap[hex]) {
-                allSkillMap[hex] = {
-                    "max": max,
-                    "sn": sn,
-                    "same": true,
-                    "vm": [],
-                    "map": {}
-                };
-            }
-
-
-            let rs = getRateByHex(hex, cur < max ? cur : max);
-            if (rs && rs.r) {
-                criticalSum = criticalSum + rs.r;
-                critical.push(`${rs.r}(${sn})`);
-                // critical.push(rs.s);
-                // rs.r
-                // rs.s
-                // console.log(rs);
-            }
-            allSkillMap[hex]["map"][name] = getProgressbar(cur, max);
-            if (!allSkillMap[hex]["vm"].includes(cur)) {
-                allSkillMap[hex]["vm"].push(cur);
-            }
-
-            // $("#skill_info_"+hex).addClass($("#skill_info_"+hex).attr("colorData"));
-            if (isSet) {
-                $("#skill_info_" + hex).attr("disabled", false);
-                $("#skill_info_" + hex).find(".skill_info_status").text(`${cur}/${max}`);
-            }
-
-            // tb = tb + `<tr class="" >        
-            // <td class="small">${d[1]}</td>
-            // <td class="small">${d[2]}</td>
-            // <td class="small">${d[3]}</td>
-            // <td class="small">${d[4]}</td>
-            // <td class="small">${d[5]}</td>
-            // <td class="small">${d[6]}</td>
-            // <td class="small">${d[7]}</td>
-            // <td class="small" style="text-align: right;">${sn}</td>
-            // <td class="small">${getProgressbar(cur, max)}</td>        
-            // </tr>`
-
-            // tb = tb + `<tr class="" >
-            // <td class="small" style="text-align: right;">${sn}</td>
-            // <td class="small">${getProgressbar(cur, max)}</td>        
-            // </tr>`
+            skillMap[hex][7] = skillMap[hex][7] + d["lv"];
+            //合计
+            skillMap[hex][8] = skillMap[hex][8] + d["lv"];
         }
-        if (isSet) {
-            document.getElementById("critical").innerHTML = `${critical.join("+")}=${criticalSum}` + getProgressbar(criticalSum, 100);
-        }
-        ptr["cri"] = criticalSum;
-
-        // console.log(`${critical.join("+")}=${criticalSum}`)    
-
 
     }
 
+    let keys = Object.keys(skillMap);
+    keys.sort(function (a, b) {
+        return parseInt(a, 16) - parseInt(b, 16);
+    });
+
+    //会心率
+    let critical = [];
+    let criticalSum = 0;
+    let tb = "";
+    $(".skill_info_btn").attr("disabled", true);
+    for (let i = 0; i < keys.length; i++) {
+        let hex = keys[i];
+        if (isSkipSkill(hex)) {
+            continue;
+        }
+        let d = skillMap[hex];
+        let sn = d[0];
+        let cur = d[8];
+        let max = d[9];
+        let rs = getRateByHex(hex, cur < max ? cur : max);
+        if (rs && rs.r) {
+            criticalSum = criticalSum + rs.r;
+            critical.push(`${rs.r}(${sn})`);
+            // critical.push(rs.s);
+            // rs.r
+            // rs.s
+            // console.log(rs);
+        }
+
+        // $("#skill_info_"+hex).addClass($("#skill_info_"+hex).attr("colorData"));
+        $("#skill_info_" + hex).attr("disabled", false);
+        $("#skill_info_" + hex).find(".skill_info_status").text(`${cur}/${max}`);
+        tb = tb + `<tr class="" >        
+        <td class="small">${d[1]}</td>
+        <td class="small">${d[2]}</td>
+        <td class="small">${d[3]}</td>
+        <td class="small">${d[4]}</td>
+        <td class="small">${d[5]}</td>
+        <td class="small">${d[6]}</td>
+        <td class="small">${d[7]}</td>
+        <td class="small" style="text-align: right;">${sn}</td>
+        <td class="small">${getProgressbar(cur, max)}</td>        
+        </tr>`
+        // tb = tb + `<tr class="" >
+        // <td class="small" style="text-align: right;">${sn}</td>
+        // <td class="small">${getProgressbar(cur, max)}</td>        
+        // </tr>`
+    }
+    // <div class="col list-group-item-warning rounded">雷: <span id="def_t">0</span></div>
+    for (let i = 0; i < tt.length; i++) {
+        let t = tt[i];
+        document.getElementById(`def_total_${t}`).innerHTML = defTotal[t];;
+    }
+
+    // console.log(`${critical.join("+")}=${criticalSum}`)    
+    document.getElementById("critical").innerHTML = `${critical.join("+")}=${criticalSum}` + getProgressbar(criticalSum, 100);
+    document.getElementById("skill_table").innerHTML = tb;
 }
 
 function getProgressbar(cur, max) {
@@ -1814,7 +1637,7 @@ function genArmorTemplate(data) {
         //0C1-0C5 头 胸 手 腰腿  001F6 系列
         let ei = data["eq_id"].split("_");
 
-        let armor_hex = intToHex(ei[0]);
+        let armor_hex = parseInt(ei[0]).toString(16).toUpperCase();
         while (armor_hex.length < 4) {
             armor_hex = "0" + armor_hex;
         }
@@ -1834,7 +1657,7 @@ function genArmorTemplate(data) {
             let ks = data["k_skill"][index];
             let td = ks["type_def"] || 0;
 
-            let k_skill_step = intToHex(i);
+            let k_skill_step = i.toString(16);
 
             let k_skill_hex = ks["k_skill_hex"];
             let k_skill_edit_hex = ks["k_skill_edit_hex"];
@@ -1866,11 +1689,6 @@ function genCharmTemplate() {
     let s2Hex = CurData.charmData["skill2Hex"];
     let s1Lv = CurData.charmData["skill1Lv"] || 0;
     let s2Lv = CurData.charmData["skill2Lv"] || 0;
-    if (CharmSkillMax) {
-        s1Lv = 9;
-        s2Lv = 9;
-    }
-    //注意把等级修改成 9 的话 则会变成最大值
     if (!s) {
         return "";
     }
@@ -1956,6 +1774,433 @@ function downloadTxt() {
     aTag.click();
 
 }
+
+function compare() {
+
+    let str = "";
+    for (let idx in CurData.partMap) {
+
+        let res = genArmorTemplate(CurData.partMap[idx]);
+        if (res) {
+            str = str + "\n" + res;
+        }
+    }
+    let data1 = str + genCharmTemplate();
+
+
+    let data2 = CmpTmp2;
+    data1 = data1.split("\n");
+    data2 = data2.split("\n");
+    let f = true;
+    for (let i = 0; i < data1.length; i++) {
+        if (data1[i].trim() != data2[i].trim()) {
+            f = false;
+            console.log("块不一致", i, data1[i], data2[i]);
+        }
+    }
+    console.log("匹配完成", f);
+
+}
+
+var CmpTmp2 = `
+[第01格脉动帝王双角]  
+580F0000 12400610 
+580F1000 00000088 
+580F1000 00000028 
+580F1000 00000010 
+580F1000 00000020 
+580F1000 000000A0 
+580F1000 00000020 
+780F0000 00000010 
+680F0000 00000000 00000095
+780F0000 00000008 
+680F0000 00000000 00000060
+580F0000 12400610 
+580F1000 00000088 
+580F1000 00000028 
+580F1000 00000010 
+580F1000 00000020 
+580F1000 000000A0 
+580F1000 00000028 
+780F0000 00000010 
+680F0000 00000000 00000095
+780F0000 00000008 
+680F0000 00000000 00000060
+580F0000 12400610 
+580F1000 00000088 
+580F1000 00000028 
+580F1000 00000010 
+580F1000 00000020 
+580F1000 000000A0 
+580F1000 00000030 
+780F0000 00000010 
+680F0000 00000000 00000095
+780F0000 00000008 
+680F0000 00000000 00000060
+580F0000 12400610 
+580F1000 00000088 
+580F1000 00000028 
+580F1000 00000010 
+580F1000 00000020 
+580F1000 000000A0 
+580F1000 00000038 
+780F0000 00000010 
+680F0000 00000000 0000008C
+780F0000 00000008 
+680F0000 00000000 00000000
+580F0000 12400610 
+580F1000 00000088 
+580F1000 00000028 
+580F1000 00000010 
+580F1000 00000020 
+580F1000 000000A0 
+580F1000 00000040 
+780F0000 00000010 
+680F0000 00000000 00000092
+780F0000 00000008 
+680F0000 00000000 00000086
+580F0000 12400610 
+580F1000 00000088 
+580F1000 00000028 
+580F1000 00000010 
+580F1000 00000020 
+580F1000 000000A0 
+580F1000 00000048 
+780F0000 00000010 
+680F0000 00000000 00000092
+780F0000 00000008 
+680F0000 00000000 00000086
+580F0000 12400610 
+580F1000 00000088 
+580F1000 00000028 
+580F1000 00000010 
+580F1000 00000020 
+580F1000 000000A0 
+580F1000 00000050 
+780F0000 00000010 
+680F0000 00000000 00000092
+780F0000 00000008 
+680F0000 00000000 00000086
+  
+[第02格水行・醒【宿衣】]  
+580F0000 12400610 
+580F1000 00000088 
+580F1000 00000028 
+580F1000 00000010 
+580F1000 00000028 
+580F1000 000000A0 
+580F1000 00000020 
+780F0000 00000010 
+680F0000 00000000 00000095
+780F0000 00000008 
+680F0000 00000000 00000060
+580F0000 12400610 
+580F1000 00000088 
+580F1000 00000028 
+580F1000 00000010 
+580F1000 00000028 
+580F1000 000000A0 
+580F1000 00000028 
+780F0000 00000010 
+680F0000 00000000 00000095
+780F0000 00000008 
+680F0000 00000000 00000060
+580F0000 12400610 
+580F1000 00000088 
+580F1000 00000028 
+580F1000 00000010 
+580F1000 00000028 
+580F1000 000000A0 
+580F1000 00000030 
+780F0000 00000010 
+680F0000 00000000 00000095
+780F0000 00000008 
+680F0000 00000000 00000060
+580F0000 12400610 
+580F1000 00000088 
+580F1000 00000028 
+580F1000 00000010 
+580F1000 00000028 
+580F1000 000000A0 
+580F1000 00000038 
+780F0000 00000010 
+680F0000 00000000 0000008D
+780F0000 00000008 
+680F0000 00000000 00000000
+580F0000 12400610 
+580F1000 00000088 
+580F1000 00000028 
+580F1000 00000010 
+580F1000 00000028 
+580F1000 000000A0 
+580F1000 00000040 
+780F0000 00000010 
+680F0000 00000000 00000090
+780F0000 00000008 
+680F0000 00000000 00000039
+580F0000 12400610 
+580F1000 00000088 
+580F1000 00000028 
+580F1000 00000010 
+580F1000 00000028 
+580F1000 000000A0 
+580F1000 00000048 
+780F0000 00000010 
+680F0000 00000000 00000091
+780F0000 00000008 
+680F0000 00000000 00000041
+580F0000 12400610 
+580F1000 00000088 
+580F1000 00000028 
+580F1000 00000010 
+580F1000 00000028 
+580F1000 000000A0 
+580F1000 00000050 
+780F0000 00000010 
+680F0000 00000000 00000093
+780F0000 00000008 
+680F0000 00000000 00000075
+  
+[第03格水行・醒【大袖】]  
+580F0000 12400610 
+580F1000 00000088 
+580F1000 00000028 
+580F1000 00000010 
+580F1000 00000030 
+580F1000 000000A0 
+580F1000 00000020 
+780F0000 00000010 
+680F0000 00000000 00000095
+780F0000 00000008 
+680F0000 00000000 00000060
+580F0000 12400610 
+580F1000 00000088 
+580F1000 00000028 
+580F1000 00000010 
+580F1000 00000030 
+580F1000 000000A0 
+580F1000 00000028 
+780F0000 00000010 
+680F0000 00000000 00000095
+780F0000 00000008 
+680F0000 00000000 00000060
+580F0000 12400610 
+580F1000 00000088 
+580F1000 00000028 
+580F1000 00000010 
+580F1000 00000030 
+580F1000 000000A0 
+580F1000 00000030 
+780F0000 00000010 
+680F0000 00000000 00000095
+780F0000 00000008 
+680F0000 00000000 00000060
+580F0000 12400610 
+580F1000 00000088 
+580F1000 00000028 
+580F1000 00000010 
+580F1000 00000030 
+580F1000 000000A0 
+580F1000 00000038 
+780F0000 00000010 
+680F0000 00000000 0000008D
+780F0000 00000008 
+680F0000 00000000 00000000
+580F0000 12400610 
+580F1000 00000088 
+580F1000 00000028 
+580F1000 00000010 
+580F1000 00000030 
+580F1000 000000A0 
+580F1000 00000040 
+780F0000 00000010 
+680F0000 00000000 00000090
+780F0000 00000008 
+680F0000 00000000 0000003A
+580F0000 12400610 
+580F1000 00000088 
+580F1000 00000028 
+580F1000 00000010 
+580F1000 00000030 
+580F1000 000000A0 
+580F1000 00000048 
+780F0000 00000010 
+680F0000 00000000 00000091
+780F0000 00000008 
+680F0000 00000000 00000051
+580F0000 12400610 
+580F1000 00000088 
+580F1000 00000028 
+580F1000 00000010 
+580F1000 00000030 
+580F1000 000000A0 
+580F1000 00000050 
+780F0000 00000010 
+680F0000 00000000 00000093
+780F0000 00000008 
+680F0000 00000000 00000070
+  
+[第04格水行・醒【圆带】]  
+580F0000 12400610 
+580F1000 00000088 
+580F1000 00000028 
+580F1000 00000010 
+580F1000 00000038 
+580F1000 000000A0 
+580F1000 00000020 
+780F0000 00000010 
+680F0000 00000000 00000095
+780F0000 00000008 
+680F0000 00000000 00000060
+580F0000 12400610 
+580F1000 00000088 
+580F1000 00000028 
+580F1000 00000010 
+580F1000 00000038 
+580F1000 000000A0 
+580F1000 00000028 
+780F0000 00000010 
+680F0000 00000000 00000095
+780F0000 00000008 
+680F0000 00000000 00000060
+580F0000 12400610 
+580F1000 00000088 
+580F1000 00000028 
+580F1000 00000010 
+580F1000 00000038 
+580F1000 000000A0 
+580F1000 00000030 
+780F0000 00000010 
+680F0000 00000000 00000095
+780F0000 00000008 
+680F0000 00000000 00000060
+580F0000 12400610 
+580F1000 00000088 
+580F1000 00000028 
+580F1000 00000010 
+580F1000 00000038 
+580F1000 000000A0 
+580F1000 00000038 
+780F0000 00000010 
+680F0000 00000000 0000008C
+780F0000 00000008 
+680F0000 00000000 00000000
+580F0000 12400610 
+580F1000 00000088 
+580F1000 00000028 
+580F1000 00000010 
+580F1000 00000038 
+580F1000 000000A0 
+580F1000 00000040 
+780F0000 00000010 
+680F0000 00000000 00000091
+780F0000 00000008 
+680F0000 00000000 00000042
+580F0000 12400610 
+580F1000 00000088 
+580F1000 00000028 
+580F1000 00000010 
+580F1000 00000038 
+580F1000 000000A0 
+580F1000 00000048 
+780F0000 00000010 
+680F0000 00000000 00000092
+780F0000 00000008 
+680F0000 00000000 0000007D
+580F0000 12400610 
+580F1000 00000088 
+580F1000 00000028 
+580F1000 00000010 
+580F1000 00000038 
+580F1000 000000A0 
+580F1000 00000050 
+780F0000 00000010 
+680F0000 00000000 00000093
+780F0000 00000008 
+680F0000 00000000 00000088
+  
+[第05格脉动钢龙踏实]  
+580F0000 12400610 
+580F1000 00000088 
+580F1000 00000028 
+580F1000 00000010 
+580F1000 00000040 
+580F1000 000000A0 
+580F1000 00000020 
+780F0000 00000010 
+680F0000 00000000 00000095
+780F0000 00000008 
+680F0000 00000000 00000060
+580F0000 12400610 
+580F1000 00000088 
+580F1000 00000028 
+580F1000 00000010 
+580F1000 00000040 
+580F1000 000000A0 
+580F1000 00000028 
+780F0000 00000010 
+680F0000 00000000 00000095
+780F0000 00000008 
+680F0000 00000000 00000060
+580F0000 12400610 
+580F1000 00000088 
+580F1000 00000028 
+580F1000 00000010 
+580F1000 00000040 
+580F1000 000000A0 
+580F1000 00000030 
+780F0000 00000010 
+680F0000 00000000 00000095
+780F0000 00000008 
+680F0000 00000000 00000060
+580F0000 12400610 
+580F1000 00000088 
+580F1000 00000028 
+580F1000 00000010 
+580F1000 00000040 
+580F1000 000000A0 
+580F1000 00000038 
+780F0000 00000010 
+680F0000 00000000 0000008C
+780F0000 00000008 
+680F0000 00000000 00000000
+580F0000 12400610 
+580F1000 00000088 
+580F1000 00000028 
+580F1000 00000010 
+580F1000 00000040 
+580F1000 000000A0 
+580F1000 00000040 
+780F0000 00000010 
+680F0000 00000000 00000092
+780F0000 00000008 
+680F0000 00000000 00000078
+580F0000 12400610 
+580F1000 00000088 
+580F1000 00000028 
+580F1000 00000010 
+580F1000 00000040 
+580F1000 000000A0 
+580F1000 00000048 
+780F0000 00000010 
+680F0000 00000000 00000092
+780F0000 00000008 
+680F0000 00000000 00000078
+580F0000 12400610 
+580F1000 00000088 
+580F1000 00000028 
+580F1000 00000010 
+580F1000 00000040 
+580F1000 000000A0 
+580F1000 00000050 
+780F0000 00000010 
+680F0000 00000000 00000092
+780F0000 00000008 
+680F0000 00000000 00000078
+`
+// compare()
+
+
 
 async function showMsg(msg) {
     MsgAry.push(msg);
@@ -2373,295 +2618,11 @@ function downloadSetting() {
 
 }
 
+//套装比较
+function compareSetting() {
 
+}
 //使用缓存的数据进行比较
-async function addToCompare(name) {
-
-
+function addToCompare(name) {
     //
-    if (PartMapAry.includes(name)) {
-        return;
-    }
-
-    try {
-        let cache = await execLoad(name);
-        if (cache) {
-            PartMapObj[name] = cache;
-            PartMapAry.push(name);
-            refreshShowArmorData();
-        }
-        loadCompareList();
-    } catch (err) {
-        //
-        showMsg("读取失败");
-    }
-
-}
-
-//从比较中移除
-async function removeFromCompare(name) {
-    //
-    // console.log(name);
-    if (PartMapAry <= 1) {
-        return;
-    }
-    for (let i = 0; i < PartMapAry.length; i++) {
-        if (PartMapAry[i] == name) {
-            PartMapAry.splice(i, 1);
-        }
-    }
-    refreshShowArmorData();
-    loadCompareList();
-}
-//折叠相同或展开
-function zipSame() {
-    //
-    if (PartMapAry <= 1) {
-        return;
-    }
-    let trL = $("#skill_table").find("tr");
-    if (ZipSameItem) {
-        for (let i = 0; i < trL.length; i++) {
-            if ($(trL[i]).hasClass("same-skill-cur")) {
-                $(trL[i]).hide();
-            }
-        }
-    } else {
-        for (let i = 0; i < trL.length; i++) {
-            if ($(trL[i]).hasClass("same-skill-cur")) {
-                $(trL[i]).show();
-            }
-        }
-    }
-    //遍历 隐藏数据
-}
-
-function parseText(v) {
-    v = v.split("\n").join("");
-    v = v.split("<string>");
-    v.shift()
-    // console.log(v);
-
-    //armor
-    // for (let i = 0; i < v.length; i++) {
-    //     let idx = (300+i)+"_3"
-    //     console.log(i,idx,v[i],armor_list[idx]?armor_list[idx]["name"]:"");
-    // }
-
-    //skillName
-    // for (let i = 0; i < v.length; i++) {
-    //     let hex = (parseInt(i)).toString(16);
-    //     if (hex.length <= 1) {
-    //         hex = "0" + hex;
-    //     }
-    //     hex=hex.toUpperCase();
-    //     console.log(i, hex, v[i], skill_data[hex] ? skill_data[hex]["sname"] : "");
-    // }
-
-    //skillDesc1
-    // for (let i = 0; i < v.length; i++) {
-    //     let hex = (parseInt(i/8)).toString(16);
-    //     if (hex.length <= 1) {
-    //         hex = "0" + hex;
-    //     }
-    //     hex=hex.toUpperCase();
-    //     //注意拼接 896行有点问题
-    //     // if(v[i]=="降低偏移2個階段，<lf>且小幅加長適當距離")console.log(i);
-    //     // console.log(i, hex, v[i], skill_data[hex] ? skill_data[hex]["sname"] : "");
-    // }
-
-    //skillDesc2
-    //36 偏移 2
-    // v.shift();
-    // //6F 风雷合一 4-5？ 幸运
-    // v.shift();
-    // v.shift();
-
-    // //25%
-    // v.pop()
-
-    // //23 防御 4-7
-    // v.pop()
-    // v.pop()
-    // v.pop()
-    // v.pop()
-
-    // //火事场力 2-4
-    // v.pop()
-    // v.pop()
-    // v.pop()
-
-    // //拔刀技 1-3
-    // v.pop()
-    // v.pop()
-    // v.pop()
-
-    // //防御性能 2-5
-    // v.pop()
-    // v.pop()
-    // v.pop()
-    // v.pop()
-
-    // //skillDesc2 前3个是补充
-    // for (let i = 0; i < v.length; i++) {
-
-    //     let hex = intToHex(112 + parseInt(i / 8));
-    //     console.log(i, parseInt(i / 8), hex, skill_data[hex] ? skill_data[hex]["sname"] : "", v[i])
-    //     //80 81 合气 7A
-    // }
-
-    //skillExplain
-    // for (let i = 0; i < v.length; i++) {
-    //     let hex = (parseInt(i)).toString(16);
-    //     if (hex.length <= 1) {
-    //         hex = "0" + hex;
-    //     }
-    //     hex=hex.toUpperCase();
-    //     console.log(i, hex, v[i], skill_data[hex] ? skill_data[hex]["sname"] : "");
-    // }
-    //skillExplain2
-    // / v.pop()
-    // v.pop()
-    // v.pop()
-    // for (let i = 0; i < v.length; i++) {
-    //     let hex = (parseInt(112+i)).toString(16);
-    //     if (hex.length <= 1) {
-    //         hex = "0" + hex;
-    //     }
-    //     hex = hex.toUpperCase();
-    //     console.log(i, hex, v[i], skill_data[hex] ? skill_data[hex]["sname"] : "");
-    // }
-
-
-    //  decoration
-    // for (let i = 0; i < v.length; i++) {
-    //     let hex = (parseInt(i)).toString(16);
-    //     if (hex.length <= 1) {
-    //         hex = "0" + hex;
-    //     }
-    //     hex=hex.toUpperCase();
-    //     console.log(i, hex, v[i], skill_data[hex] ? skill_data[hex]["sname"] : "");
-    //     // 29 '1D' '' '解放弓的蓄力阶段'
-    //     // 83 '53' '' '剥取名人'
-    //     // 100 '64' '' '霞皮的恩惠'
-    //     // 101 '65' '' '钢壳的恩惠'
-    //     // 102 '66' '' '炎鳞的恩惠'
-    //     // 103 '67' '' '龙气活性'
-    //     // 109 '6D' '' '风纹一致'
-    //     // 110 '6E' '' '雷纹一致'
-    //     // 111 '6F' '' '风雷合一'
-
-
-    // }
-
-    //  decoration2
-    // for (let i = 0; i < v.length; i++) {
-    //     let hex = (parseInt("43", 16) + parseInt(i)).toString(16);
-    //     if (hex.length <= 1) {
-    //         hex = "0" + hex;
-    //     }
-    //     hex = hex.toUpperCase();
-    //     console.log(i, hex, v[i], skill_data[hex] ? skill_data[hex]["sname"] : "");
-    //     // 29 '1D' '' '解放弓的蓄力阶段'
-    //     // 83 '53' '' '剥取名人'
-    //     // 100 '64' '' '霞皮的恩惠'
-    //     // 101 '65' '' '钢壳的恩惠'
-    //     // 102 '66' '' '炎鳞的恩惠'
-    //     // 103 '67' '' '龙气活性'
-    //     // 109 '6D' '' '风纹一致'
-    //     // 110 '6E' '' '雷纹一致'
-    //     // 111 '6F' '' '风雷合一'
-
-
-    // }
-
-    for (let i = 0; i < v.length; i++) {
-        let idx = 109 + i + "";
-        // console.log(i, idx, v[i], decoration_data[idx] ? decoration_data[idx]["dname"] : "");
-        // 29 '1D' '' '解放弓的蓄力阶段'
-        // 83 '53' '' '剥取名人'
-        // 100 '64' '' '霞皮的恩惠'
-        // 101 '65' '' '钢壳的恩惠'
-        // 102 '66' '' '炎鳞的恩惠'
-        // 103 '67' '' '龙气活性'
-        // 109 '6D' '' '风纹一致'
-        // 110 '6E' '' '雷纹一致'
-        // 111 '6F' '' '风雷合一'
-
-
-    }
-
-}
-
-// parseText(A_Arm_Name_MR);
-// parseText(PlayerSkill_Name);
-// parseText(PlayerSkill_Detail);
-// parseText(PlayerSkill_Detail2);
-
-// parseText(PlayerSkill_Explain);
-// parseText(PlayerSkill_Explain2);
-
-// parseText(Decorations_Name);
-parseText(Decorations_Name2);
-
-
-
-async function buildTestData() {
-    // var version_code = "11D95B00";//12.0.1
-    // var version_code = "12400610";//13.0.1
-    // var version_code = "123693D0";//14.0.1
-    // var version_code = "129E11D8";//15.0.1
-    // var version_code = "12A4FD80";//16.0.0
-    // var version_code = "12A4A1E8";//16.0.1
-    let str = [];
-    let i = 0;
-    for (i = 0; i < parseInt("A4FFFF", 16); i++) {
-        let s = (i).toString(16).toUpperCase();
-        while (s.length < 6) {
-            s = "0" + s;
-        }
-        // console.log(s)
-        let code = `12${s}`;
-        let bc = `[test${s}]
-    580F0000 ${code}
-    580F1000 00000088
-    580F1000 00000028
-    580F1000 00000010
-    580F1000 00000020
-    780F0000 00000030
-    680F0000 0C1001EF 00000002`
-        str.unshift(bc);
-        // if (str.length == 100) {
-        //     await tiemLag(100);
-        //     down(i, str);
-        //     str = [];
-        // }
-        // console.log(bc)
-
-    }
-    if (str.length) {
-        down(i, str);
-        str = [];
-    }
-    function down(i, str) {
-        console.log(i,str.length);
-        str = str.join("\n");
-
-        const blob = new Blob([str], {
-            type: "text/plain;charset=utf-8"
-        })
-        // 根据 blob生成 url链接
-        const objectURL = URL.createObjectURL(blob)
-        // 创建一个 a 标签Tag
-        const aTag = document.createElement('a')
-        // 设置文件的下载地址
-        aTag.href = objectURL
-        // 设置保存后的文件名称
-        aTag.download = `D2FD97779381FB9A-${i}.txt`;
-        // 给 a 标签添加点击事件
-        aTag.click();
-        aTag.remove();
-        // document.removeChild(aTag);
-    }
-
 }

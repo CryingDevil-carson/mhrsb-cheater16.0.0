@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>怪物猎人 MHRSB 怪异练成+护石 v16 switch金手指</title>
+    <!-- <title>怪物猎人 MHRSB 怪异练成+护石 v16 switch金手指</title> -->
     <title> </title>
     <meta name="description" content="怪物猎人 MHRSB 怪异练成+护石 16 switch金手指">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -56,6 +56,15 @@
     <script src="data/k_skill_add.js"></script>
     <script src="data/skill_data.js"></script>
     <script src="data/decoration_data.js"></script>
+    <script src="data/A_Arm_Name_MR.js"></script>
+    <script src="data/PlayerSkill_Name.js"></script>
+    <script src="data/PlayerSkill_Detail.js"></script>
+    <script src="data/PlayerSkill_Detail2.js"></script>
+    <script src="data/PlayerSkill_Explain.js"></script>
+    <script src="data/PlayerSkill_Explain2.js"></script>
+    <script src="data/Decorations_Name.js"></script>
+    <script src="data/Decorations_Name2.js"></script>
+
 
 </head>
 
@@ -110,7 +119,7 @@
                     <div class="btn dropdown">
                         <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
                             aria-expanded="false">加载历史</button>
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu dropdown-menu-cache">
 
                         </ul>
                     </div>
@@ -278,18 +287,34 @@
                 </div>
                 <div class="row">
                     <div class="col">
+
+
+
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th class="small">头</th>
-                                    <th class="small">身</th>
-                                    <th class="small">手</th>
-                                    <th class="small">腰</th>
-                                    <th class="small">腿</th>
-                                    <th class="small">护石</th>
-                                    <th class="small">武器</th>
                                     <th class="small" style="text-align: right;">技能</th>
                                     <th class="small">合计</th>
+
+                                    <th class="small">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" role="switch" id="zipSame">
+                                            <label class="form-check-label" for="flexSwitchCheckChecked">折叠相同选项</label>
+                                        </div>
+                                    </th>
+                                    <th class="small">
+                                        <div class="btn dropdown">
+                                            <button class="btn btn-secondary dropdown-toggle" type="button"
+                                                data-bs-toggle="dropdown" aria-expanded="false">增加对比</button>
+                                            <ul class="dropdown-menu dropdown-menu-compare">
+
+                                            </ul>
+                                        </div>
+                                    </th>
+                                </tr>
+                                <tr id="skill_table_head">
+                                    <th class="small" style="text-align: right;"></th>
+                                    <th class="small">名称/会心</th>
                                 </tr>
                             </thead>
                             <tbody id="skill_table">
@@ -349,9 +374,13 @@
             <div id="menu2">
                 <button class="btn btn-outline-secondary" type="button" id="copy_to_clipboard">复制到粘贴板</button>
                 <button class="btn btn-outline-primary" type="button" id="download">下载txt</button>
-                <div class="form-check form-switch">
+                <div class="col form-check form-switch">
                     <input class="form-check-input" type="checkbox" role="switch" id="auto_gen_armor">
                     <label class="form-check-label" for="flexSwitchCheckChecked">自动生成装备</label>
+                </div>
+                <div class="col form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="charm_skill_max">
+                    <label class="form-check-label" for="flexSwitchCheckChecked">护石技能最大</label>
                 </div>
                 <label class="text-success" id="copy_result"></label>
                 <blockquote class="blockquote small" id="template_result"></blockquote>

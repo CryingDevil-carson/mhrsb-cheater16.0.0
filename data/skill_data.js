@@ -23,7 +23,7 @@ var skill_data = {
     "07": { "tag": [Attr.cri], "hex": "07", "sname": "超会心", "cost": 15, "max": 3, "lvType": "S", "p1Max": 3, "p2Max": 2, },
     "08": { "tag": [Attr.cri], "hex": "08", "sname": "弱点特效", "cost": 15, "max": 3, "lvType": "A", "p1Max": 3, "p2Max": 2, },
     "09": { "tag": [Attr.atk, Attr.cri], "hex": "09", "sname": "力量解放", "cost": 12, "max": 5, "lvType": "A", "p1Max": 5, "p2Max": 4, },
-    "0A": { "tag": [Attr.cri], "hex": "0A", "sname": "精神抖擞", "cost": 12, "max": 3, "lvType": "A", "p1Max": 2, "p2Max": 2, },
+    "0A": { "tag": [Attr.cri], "hex": "0A", "sname": "精神抖擞", "cost": 12, "max": 3, "lvType": "A", "p1Max": 3, "p2Max": 2, },
     "0B": { "tag": [Attr.ele, Attr.cri], "hex": "0B", "sname": "会心击【属性】", "cost": 9, "max": 3, "lvType": "A", "p1Max": 3, "p2Max": 2, },
     "0C": { "tag": [Attr.sharp], "hex": "0C", "sname": "达人艺", "cost": 15, "max": 3, "lvType": "S", "p1Max": 3, "p2Max": 2, },
     "0D": { "tag": [Attr.ele], "hex": "0D", "sname": "火属性攻击强化", "cost": 3, "max": 5, "lvType": "B", "p1Max": 5, "p2Max": 4, },
@@ -62,8 +62,8 @@ var skill_data = {
     "2E": { "tag": [Attr.gun], "hex": "2E", "sname": "炮弹装填", "cost": 6, "max": 2, "lvType": "A", "p1Max": 2, "p2Max": 1, },
     "2F": { "tag": [Attr.gun], "hex": "2F", "sname": "特殊射击强化", "cost": 6, "max": 2, "lvType": "A", "p1Max": 2, "p2Max": 1, },
     "30": { "tag": [Attr.gun], "hex": "30", "sname": "通常弹·连射箭强化", "cost": 15, "max": 3, "lvType": "A", "p1Max": 3, "p2Max": 2, },
-    "31": { "tag": [Attr.gun], "hex": "31", "sname": "散弹·扩散箭强化", "cost": 15, "max": 3, "lvType": "S", "p1Max": 3, "p2Max": 2, },
-    "32": { "tag": [Attr.gun], "hex": "32", "sname": "贯通弹·贯通箭强化", "cost": 15, "max": 3, "lvType": "S", "p1Max": 3, "p2Max": 2, },
+    "31": { "tag": [Attr.gun], "hex": "31", "sname": "贯通弹·贯通箭强化", "cost": 15, "max": 3, "lvType": "S", "p1Max": 3, "p2Max": 2, },
+    "32": { "tag": [Attr.gun], "hex": "32", "sname": "散弹·扩散箭强化", "cost": 15, "max": 3, "lvType": "S", "p1Max": 3, "p2Max": 2, },
     "33": { "tag": [Attr.gun], "hex": "33", "sname": "装填扩充", "cost": 15, "max": 3, "lvType": "S", "p1Max": 3, "p2Max": 2, },
     "34": { "tag": [Attr.gun], "hex": "34", "sname": "装填速度", "cost": 6, "max": 3, "lvType": "B", "p1Max": 3, "p2Max": 2, },
     "35": { "tag": [Attr.gun], "hex": "35", "sname": "减轻后坐力", "cost": 6, "max": 3, "lvType": "B", "p1Max": 3, "p2Max": 2, },
@@ -129,7 +129,7 @@ var skill_data = {
     "71": { "tag": [Attr.spec], "hex": "71", "sname": "伏魔耗命", "cost": -99, "max": 3, "lvType": "S", "p1Max": 2, "p2Max": 1, },
     "72": { "tag": [Attr.spec], "hex": "72", "sname": "激昂", "cost": 9, "max": 3, "lvType": "B", "p1Max": 3, "p2Max": 2, },
     "73": { "tag": [Attr.spec], "hex": "73", "sname": "业铠【修罗】", "cost": 9, "max": 3, "lvType": "A", "p1Max": 3, "p2Max": 2, },
-    "74": { "tag": [Attr.spec], "hex": "74", "sname": "因祸得福", "cost": 12, "max": 3, "lvType": "A", "p1Max": 0, "p2Max": 0, },
+    "74": { "tag": [Attr.atk], "hex": "74", "sname": "因祸得福", "cost": 12, "max": 3, "lvType": "A", "p1Max": 0, "p2Max": 0, },
     "75": { "tag": [Attr.spec], "hex": "75", "sname": "狂龙症【蚀】", "cost": 12, "max": 3, "lvType": "A", "p1Max": 3, "p2Max": 2, },
     "76": { "tag": [Attr.def], "hex": "76", "sname": "坚如磐石", "cost": 6, "max": 5, "lvType": "C", "p1Max": 5, "p2Max": 4, },
     "77": { "tag": [Attr.spec], "hex": "77", "sname": "偷袭", "cost": 12, "max": 3, "lvType": "A", "p1Max": 3, "p2Max": 2, },
@@ -157,11 +157,13 @@ var skill_data = {
     "8D": { "tag": [Attr.spec], "hex": "8D", "sname": "龙气转换", "cost": 12, "max": 3, "lvType": "A", "p1Max": 3, "p2Max": 2, },
     "8E": { "tag": [Attr.spec], "hex": "8E", "sname": "天衣无缝", "cost": -99, "max": 3, "lvType": "", "p1Max": 0, "p2Max": 0, },
     "8F": { "tag": [Attr.spec], "hex": "8F", "sname": "狂龙症【翔】", "cost": 9, "max": 3, "lvType": "A", "p1Max": 3, "p2Max": 2, },
-    
+
     "90": { "tag": [Attr.atk], "hex": "90", "sname": "气血觉醒", "cost": -99, "max": 3, "lvType": "", "p1Max": 0, "p2Max": 0, },
     "91": { "tag": [Attr.spec], "hex": "91", "sname": "奋斗", "cost": 9, "max": 3, "lvType": "A", "p1Max": 3, "p2Max": 2, },
     "92": { "tag": [Attr.def], "hex": "92", "sname": "缓冲", "cost": -99, "max": 1, "lvType": "B", "p1Max": 0, "p2Max": 0, },
-    
+
+    "93": { "tag": [Attr.def], "hex": "93", "sname": "激励", "cost": -99, "max": 1, "lvType": "B", "p1Max": 0, "p2Max": 0, },
+
 
 }
 
@@ -574,19 +576,19 @@ var skill_desc = {
                 </ul>
             `},
     "31": {
+        "sname": "贯通弹·贯通箭强化", "desc": `提高弩炮的贯穿弹或是弓的贯穿箭的攻击力。`, "effect": `
+                        <ul>
+                            <li>Lv1. 贯穿弹与贯穿箭的威力小幅上升</li>
+                            <li>Lv2. 贯穿弹与贯穿箭的威力上升</li>
+                            <li>Lv3. 贯穿弹与贯穿箭的威力进一步上升</li>
+                        </ul>
+                    `},
+    "32": {
         "sname": "散弹·扩散箭强化", "desc": `提高弩炮的散弹、放散弹或是弓的扩散箭的攻击力。`, "effect": `
                 <ul>
                     <li>Lv1. 散弹、放散弹、扩散箭的威力小幅上升</li>
                     <li>Lv2. 散弹、放散弹、扩散箭的威力上升</li>
                     <li>Lv3. 散弹、放散弹、扩散箭的威力进一步上升</li>
-                </ul>
-            `},
-    "32": {
-        "sname": "贯通弹·贯通箭强化", "desc": `提高弩炮的贯穿弹或是弓的贯穿箭的攻击力。`, "effect": `
-                <ul>
-                    <li>Lv1. 贯穿弹与贯穿箭的威力小幅上升</li>
-                    <li>Lv2. 贯穿弹与贯穿箭的威力上升</li>
-                    <li>Lv3. 贯穿弹与贯穿箭的威力进一步上升</li>
                 </ul>
             `},
     "33": {
@@ -1342,6 +1344,10 @@ var skill_desc = {
             `},
     "92": {
         "sname": "缓冲", "desc": `攻击命中同行的同伴，或是受到同伴的攻击时，使伤害反应无效。（在特定状态异常时不会生效）`,
+        "effect": `<ul><li>Lv1. 发动效果</li></ul>`
+    },
+    "93": {
+        "sname": "激励", "desc": `发动对一定范围内的同伴生效的效果时（如旋律效果），短时间内还可附加攻击力上升的效果。`,
         "effect": `<ul><li>Lv1. 发动效果</li></ul>`
     },
     "90": {
